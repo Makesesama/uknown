@@ -19,13 +19,16 @@ defmodule Pokequiz.Dex.Type do
     |> validate_required([:name])
   end
 
+  defp two_random_types() do
+    Repo.all(Pokequiz.Dex.Pokemon)
+    |> Repo.preload(:types)
+    |> Enum.filter(fn x -> Enum.count(x.types) > 1 end)
+    |> Enum.random()
+    |> Map.get(:types)    
+  end
+  
   def get_random_kombo() do
-    types =
-      Repo.all(Pokequiz.Dex.Pokemon)
-      |> Repo.preload(:types)
-      |> Enum.filter(fn x -> x.types > 1 end)
-      |> Enum.random()
-      |> Map.get(:types)
+    types = two_random_types()
 
 
     first_type_pokemon =
@@ -33,6 +36,8 @@ defmodule Pokequiz.Dex.Type do
       |> Repo.preload(:pokemon)
       |> Map.get(:pokemon)
       |> Repo.preload(:types)
+      |> Repo.preload(:species)
+      |> Repo.preload(species: :names)
 
     types_string =
       types

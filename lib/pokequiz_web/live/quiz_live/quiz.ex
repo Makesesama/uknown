@@ -3,36 +3,7 @@ defmodule PokequizWeb.QuizLive.Show do
   use Phoenix.LiveView
 
   import PokequizWeb.CoreComponents
-  
-  def render(assigns) do
-    ~H"""
-    <div class="flex justify-center">
-      <div>
-        <p>There are {Enum.count(@pokemon.pokemon)} with the type Combination <%= for type <- @pokemon.types do %>{type} <% end %></p>
-
-      <form phx-submit="submit">
-        <label>Your Text:<input id="msg" type="text" name="input_value" /></label>
-        <button>Send</button>
-      </form>
-      <%= if @pick do %>
-      <p>Your pick is {@pick}</p>
-      <% end %>
-      <div>
-
-        <%= for pokemon <- @pokemon.pokemon do %>
-        <%= if pokemon.picked do %>
-        <.list>
-          <:item title="Name">{pokemon.name}</:item>
-          <:item title="Types">{Enum.map(pokemon.types, fn x -> "#{x.name} " end)}</:item>
-        </.list>
-        <% end %>
-        <% end %>
-      
-      </div>
-      </div>
-    </div>
-    """
-  end
+     
 
   def mount(params, session, socket) do
     #TODO Sometimes this gets a weird type Kombo like normal nil
@@ -40,45 +11,92 @@ defmodule PokequizWeb.QuizLive.Show do
     IO.inspect(types)
     socket =
       socket
+      |> assign(page_title: "Pokemon Type Combination Quiz")
+      |> assign(all_ready: false)
       |> assign(pokemon: types)
-      |> assign_new(:pick, fn -> nil end)
+      |> assign(pick: 0)
+      |> assign(input_color: [])
+      |> assign(datalist: [])
 
     {:ok, socket}
   end
 
+  def handle_event("submit_ready", %{"player_number" => player_number, "all_ready" => all_ready}, socket) do
+    types = Pokequiz.Dex.Type.get_random_kombo()
+    IO.inspect(types)
+
+    players =
+      1..String.to_integer(player_number)
+      |> Enum.to_list
+      |> Enum.map(fn x -> %{id: x, name: "player #{x}", turn: false, points: 0} end)
+      |> Enum.map(fn x ->
+        if x.id == 1 do
+          %{x | turn: true}
+        else
+          x
+        end
+      end)
+    
+    socket =
+      socket
+      |> assign(pokemon: types)
+      |> assign(pick: 0)
+      |> assign(input_color: [])
+      |> assign(datalist: [])
+      |> assign(all_ready: all_ready)
+      |> assign(players: players)
+
+    {:noreply, socket}
+  end
+  
+  def handle_event("new", _, socket) do
+    types = Pokequiz.Dex.Type.get_random_kombo()
+    IO.inspect(types)
+    socket =
+      socket
+      |> assign(pokemon: types)
+      |> assign(pick: 0)
+      |> assign(input_value: "")
+
+    {:noreply, socket}
+  end
+
+  def handle_event("completion", %{"input_value" => msg}, socket) do
+    list = Pokequiz.Dex.Name.get_like(msg)
+  
+    {:noreply, assign(socket, datalist: list)}
+  end
+
   def handle_event("submit", %{"input_value" => msg}, socket) do
     %{assigns: %{pokemon: pokemon}} = socket
-    %{assigns: %{pick: old_pick}} = socket
+
+    new_pokemon = Enum.map(pokemon.pokemon, fn x ->
+      cond do
+        String.downcase(x.name) == String.downcase(msg) ->
+          %{x | picked: true}
+        String.downcase(Enum.at(x.species.names, 5).name) == String.downcase(msg) ->
+          %{x | picked: true}
+        true ->
+          x
+      end
+    end)
+
+     
+    color = if Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end)) <= Enum.count(Enum.filter(pokemon.pokemon, fn x -> x.picked end)) do
+              ["Not a correct Pokemon"]
+            else
+              []
+    end
+        
     
-    pick =
-      pokemon.pokemon
-      |> Enum.filter(fn x -> x.name == msg end)
-
-    pick_name = if Enum.count(pick) > 0 do
-                  pick
-                  |> hd
-                  |> Map.get(:name)                  
-                else
-                  nil
-    end
-
-    # new_pokemon = put_in(pokemon.pokemon[pick_name].picked, true)
-
-
-    if old_pick == nil do
-      socket =
-        socket
-        |> assign(:pick, [pick_name])
-        # |> assign(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
-      {:noreply, socket}
-    else
-      socket =
-        socket
-        |> assign(:pick, [pick_name|old_pick])
-        # |> assign(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
-      {:noreply, socket}
-    end
-
+                 socket =
+                 socket
+                 |> assign(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
+                 |> assign(:pick, Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end)))
+                 |> assign(:input_color, color)
+                 |> assign(:input_value, "")
+    
+    {:noreply, socket}
   end
 
 end

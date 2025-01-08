@@ -2,13 +2,15 @@
   description = "An Elixir development shell.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    lexical.url = "github:lexical-lsp/lexical/support_1_18";
   };
 
   outputs =
     {
       self,
       nixpkgs,
+      lexical,
     }:
     let
       supportedSystems = [
@@ -25,7 +27,7 @@
             beamPkgs = final.beam.packagesWith final.beam.interpreters.erlang_27;
           in
           rec {
-            elixir = beamPkgs.elixir_1_16;
+            elixir = beamPkgs.elixir_1_18;
             hex = beamPkgs.hex;
           }
         )
@@ -64,6 +66,8 @@
                   elixir
                   hex
                   mix2nix
+
+                  lexical.packages."x86_64-linux".default
                 ]
                 ++ opts;
               shellHook = ''
