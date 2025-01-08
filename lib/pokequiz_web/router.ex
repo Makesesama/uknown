@@ -19,6 +19,8 @@ defmodule PokequizWeb.Router do
 
     get "/", PageController, :home
     live "/quiz", QuizLive.Show
+    
+    live "/whois", WhoisLive.Show
 
     live "/quiz_sessions", SessionsLive.Index, :index
     live "/quiz_sessions/new", SessionsLive.Index, :new

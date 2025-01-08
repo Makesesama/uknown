@@ -27,6 +27,11 @@ defmodule Pokequiz.Dex.Pokemon do
     |> validate_required([:name, :order, :height, :weight, :is_default, :base_experience])
   end
 
-
+  def random() do
+    Repo.all(Pokequiz.Dex.Pokemon)
+    |> Enum.random
+    |> Repo.preload(:species)
+    |> Repo.preload(species: :names)
+  end
 
 end

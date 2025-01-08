@@ -89,12 +89,12 @@ defmodule PokequizWeb.QuizLive.Show do
     end
         
     
-                 socket =
-                 socket
-                 |> assign(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
-                 |> assign(:pick, Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end)))
-                 |> assign(:input_color, color)
-                 |> assign(:input_value, "")
+    socket =
+      socket
+      |> assign(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
+      |> assign(:pick, Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end)))
+      |> assign(:input_color, color)
+      |> assign(:input_value, "")
     
     {:noreply, socket}
   end
