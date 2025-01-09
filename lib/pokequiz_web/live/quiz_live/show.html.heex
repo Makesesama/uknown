@@ -1,8 +1,6 @@
 <div class="h-screen flex items-center justify-center">
-  <a href="/" class="absolute top-2 left-2"><.icon name="hero-home" class="w-8 h-8" /></a>
 
-<%= if @all_ready do %>
-<div class="container">
+<div class="container h-[80%]">
   <h1 class="text-xl font-bold">Pokemon Type Combination Quiz</h1>
   <div class="mx-4">
     <div class="flex flex-col justify-center gap-y-4">
@@ -41,7 +39,7 @@
             <% end %>
           </div>
       </div>
-      <button phx-click="new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>x
+      <button phx-click="new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
     </div>
   </div>
 </div>
@@ -51,13 +49,4 @@
   <option value={data.name}></option>
   <%end %>
 </datalist>
-<% else %>
-  <div>
-    <form class="flex justify-center gap-2" phx-submit="submit_ready">
-      <label>Players<.input  class={["rounded", "border-2"]} id="ready" type="number" name="player_number" value="2"/></label>
-      <label>All Ready?<.input  class={["rounded", "border-2"]} id="ready" type="checkbox" name="all_ready" value=""/></label>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
-    </form>
-  </div>
-<% end %>
 </div>

@@ -1,50 +1,51 @@
-<a href="/" class="absolute top-2 left-2"><.icon name="hero-home" class="w-8 h-8" /></a>
-<div class="h-screen">
-  <div class="flex justify-evenly">
-    <div class="flex flex-col justify-center">
-      <label class="font-bold flex justify-center">
-        {@pokemon_1.name}
-      </label>
-      <button phx-click="pokemon_1" class="border border-4 hover:border-blue-700 text-white font-bold py-2 px-4 rounded rounded-lg">
-        <img class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300" width="400px" height="400px" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@pokemon_1.id}.png"} />
-      </button>
-      <div class={["transition", "duration-200", @opacity]}>
-        <label :if={@show_weight} class="font-bold flex justify-center">
-          {@pokemon_1.weight}
+<div class="h-screen flex items-center justify-center">
+  <div class="container h-[80%]">
+    <div class="flex justify-evenly">
+      <div class="flex flex-col justify-center">
+        <label class="font-bold flex justify-center">
+          {@pokemon_1.name}
         </label>
+        <button phx-click="pokemon_1" class="border border-4 hover:border-blue-700 text-white font-bold py-2 px-4 rounded rounded-lg">
+          <img class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300" width="400px" height="400px" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@pokemon_1.id}.png"} />
+        </button>
+        <div class={["transition", "duration-200", @opacity]}>
+          <label :if={@show_weight} class="font-bold flex justify-center">
+            {@pokemon_1.weight}
+          </label>
+        </div>
       </div>
-    </div>
-    <div class="flex flex-col justify-center">
-      <label class="font-bold flex justify-center">
-        {@pokemon_2.name}
-      </label>
+      <div class="flex flex-col justify-center">
+        <label class="font-bold flex justify-center">
+          {@pokemon_2.name}
+        </label>
 
-      <button phx-click="pokemon_2" class="border border-4 hover:border-blue-700 text-white font-bold py-2 px-4 rounded rounded-lg">
-        <img class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300" width="400px" height="400px" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@pokemon_2.id}.png"} />
-      </button>
-      <div class={["transition", "duration-200", @opacity]}>
-        <label :if={@show_weight} class="font-bold flex justify-center">
-          {@pokemon_2.weight}
-        </label>
+        <button phx-click="pokemon_2" class="border border-4 hover:border-blue-700 text-white font-bold py-2 px-4 rounded rounded-lg">
+          <img class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300" width="400px" height="400px" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@pokemon_2.id}.png"} />
+        </button>
+        <div class={["transition", "duration-200", @opacity]}>
+          <label :if={@show_weight} class="font-bold flex justify-center">
+            {@pokemon_2.weight}
+          </label>
+        </div>
       </div>
     </div>
-  </div>
-  <%= case @won do %>
-  <% nil -> %>
-  <% false -> %>
-  <div class={["transition", "duration-200", @opacity]}>
-    <div class="transition flex flex-col gap-8 justify-center items-center">
-      <p class="font-extrabold text-4xl tracking-widest text-red-400">You Lost</p>
-      <button phx-click="new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+    <%= case @won do %>
+    <% nil -> %>
+    <% false -> %>
+    <div class={["transition", "duration-200", @opacity]}>
+      <div class="transition flex flex-col gap-8 justify-center items-center">
+        <p class="font-extrabold text-4xl tracking-widest text-red-400">You Lost</p>
+        <button phx-click="new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+      </div>
     </div>
-  </div>
-  <% true -> %>
-  <div class={["transition", "duration-200", @opacity]}>
-    <div class="transition flex flex-col gap-8 justify-center items-center">
-      <p class="font-extrabold text-4xl tracking-widest text-lime-400">You Won</p>
-      <button phx-click="new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+    <% true -> %>
+    <div class={["transition", "duration-200", @opacity]}>
+      <div class="transition flex flex-col gap-8 justify-center items-center">
+        <p class="font-extrabold text-4xl tracking-widest text-lime-400">You Won</p>
+        <button phx-click="new" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+      </div>
     </div>
-  </div>
-  <% end %>
+    <% end %>
   
+  </div>
 </div>

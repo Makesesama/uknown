@@ -1,6 +1,6 @@
 defmodule PokequizWeb.QuizLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
-  use Phoenix.LiveView
+  use PokequizWeb, :live_view
 
   import PokequizWeb.CoreComponents
      
@@ -43,8 +43,6 @@ defmodule PokequizWeb.QuizLive.Show do
       |> assign(pick: 0)
       |> assign(input_color: [])
       |> assign(datalist: [])
-      |> assign(all_ready: all_ready)
-      |> assign(players: players)
 
     {:noreply, socket}
   end

@@ -1,6 +1,6 @@
 defmodule PokequizWeb.WhoisLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
-  use Phoenix.LiveView
+  use PokequizWeb, :live_view
 
   import PokequizWeb.CoreComponents
      

@@ -6,13 +6,10 @@ defmodule PokequizWeb.PageController do
   alias Pokequiz.Dex.Pokemon
   
   def home(conn, _params) do
-    pokemon =
-      Repo.get(Pokemon, 112)
-      |> Repo.preload(:types)
 
     # The home page is often custom made
     # so skip the default app layout.
-    render(conn, :home, pokemon: pokemon)
+    render(conn, :home)
   end
 
   def quiz(conn, _params) do
