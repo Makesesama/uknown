@@ -16,7 +16,8 @@ defmodule PokequizWeb.WhoisLive.Show do
       |> assign(pokemon: pokemon)
       |> assign(input_error: [])
       |> assign(datalist: [])
-      |> assign(pick: ["absolute", "transition", "duration-1000", "top-8", "left-44", "filter", "brightness-0"])
+      |> assign(pick: ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"])
+      |> assign(:won, false)
 
     {:ok, socket}
   end
@@ -25,7 +26,8 @@ defmodule PokequizWeb.WhoisLive.Show do
     socket =
       socket
       |> assign(pokemon: Pokequiz.Dex.Pokemon.random())
-      |> assign(pick: ["absolute", "top-8", "left-44", "filter", "brightness-0"])
+      |> assign(pick: ["absolute", "top-8", "left-[8%]", "filter", "brightness-0"])
+      |> assign(:won, false)
 
     {:noreply, socket}
   end
@@ -42,18 +44,20 @@ defmodule PokequizWeb.WhoisLive.Show do
     picked =
       cond do
         String.downcase(pokemon.name) == String.downcase(msg) ->
-          ["absolute", "transition", "duration-1000", "top-8", "left-44", "filter"]
+          ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
         String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg) ->
-          ["absolute", "transition", "duration-1000", "top-8", "left-44", "filter"]
+          ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
         true ->
-          ["absolute", "transition", "duration-1000", "top-8", "left-44", "filter", "brightness-0"]
+          ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"]
       end
         
+    won = String.downcase(pokemon.name) == String.downcase(msg) or  String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg)
     
     socket =
       socket
       |> assign(:pick, picked)
       |> assign(:input_value, "")
+      |> assign(:won, won)
     
     {:noreply, socket}
   end

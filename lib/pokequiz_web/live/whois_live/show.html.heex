@@ -1,11 +1,15 @@
+
+
 <div class="relative">
   <img class="" width="100%" height="100%" alt="Unkown Pokemon" src={"/images/whois.png"} />
-  <img class={["absolute", "transition", "duration-1000", "top-8", "left-44", "filter", @pick]} width="500" height="500" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@pokemon.id}.png"} />
+  <img class={@pick} width="40%" height="40%" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@pokemon.id}.png"} />
 
   <form class="absolute bottom-4 left-56 bg-white p-2 rounded flex justify-center gap-2" phx-submit="submit" phx-change="completion">
         <label>Your Guess:<.input list="pokemon-names" errors={@input_error} class={["rounded", "border-2"]} id="msg" type="text" name="input_value" value=""/></label>
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
   </form>
+
+  <p class="absolute origin-center -rotate-12 text-4xl font-bold text-yellow-400 right-[20%] top-[35%]" :if={@won}>{@pokemon.name}</p>
 </div>
 
 
@@ -16,3 +20,5 @@
   <option value={data.name}></option>
   <%end %>
 </datalist>
+
+<a href="/" class="absolute top-2 left-2"><.icon name="hero-home" class="w-8 h-8 bg-black" /></a>
