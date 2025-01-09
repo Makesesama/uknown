@@ -4,6 +4,9 @@ defmodule Pokequiz.Dex.Pokemon do
 
   alias Pokequiz.Repo
 
+  alias __MODULE__
+  alias Pokequiz.Dex
+
   import Ecto.Query, only: [from: 2]
 
   schema "pokemon_v2_pokemon" do
@@ -15,11 +18,11 @@ defmodule Pokequiz.Dex.Pokemon do
     field :base_experience, :integer
     field :picked, :boolean, [virtual: true, default: false]
     
-    many_to_many :types, Pokequiz.Dex.Type, join_through: "pokemon_v2_pokemontype"
+    many_to_many :types, Dex.Type, join_through: "pokemon_v2_pokemontype"
 
-    belongs_to :species, Pokequiz.Dex.Species, foreign_key: :pokemon_species_id
+    belongs_to :species, Dex.Species, foreign_key: :pokemon_species_id
 
-    many_to_many :moves, Pokequiz.Dex.Move, join_through: "pokemon_v2_pokemonmove"
+    many_to_many :moves, Dex.Move, join_through: "pokemon_v2_pokemonmove"
   end
 
                                                  @doc false
@@ -30,7 +33,7 @@ defmodule Pokequiz.Dex.Pokemon do
   end
 
   def random() do
-    Repo.all(Pokequiz.Dex.Pokemon)
+    Repo.all(Pokemon)
     |> Enum.random
     |> Repo.preload(:species)
     |> Repo.preload(species: :names)

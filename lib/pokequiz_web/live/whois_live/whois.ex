@@ -3,12 +3,13 @@ defmodule PokequizWeb.WhoisLive.Show do
   use PokequizWeb, :live_view
 
   import PokequizWeb.CoreComponents
-     
+
+  alias Pokequiz.Dex
 
   def mount(params, session, socket) do
     #TODO Sometimes this gets a weird type Kombo like normal nil
 
-    pokemon = Pokequiz.Dex.Pokemon.random()
+    pokemon = Dex.Pokemon.random()
     IO.inspect(pokemon)
     socket =
       socket
@@ -25,7 +26,7 @@ defmodule PokequizWeb.WhoisLive.Show do
   def handle_event("new", _, socket) do
     socket =
       socket
-      |> assign(pokemon: Pokequiz.Dex.Pokemon.random())
+      |> assign(pokemon: Dex.Pokemon.random())
       |> assign(pick: ["absolute", "top-8", "left-[8%]", "filter", "brightness-0"])
       |> assign(:won, false)
 
@@ -33,7 +34,7 @@ defmodule PokequizWeb.WhoisLive.Show do
   end
 
   def handle_event("completion", %{"input_value" => msg}, socket) do
-    list = Pokequiz.Dex.Name.get_like(msg)
+    list = Dex.Name.get_like(msg)
   
     {:noreply, assign(socket, datalist: list)}
   end

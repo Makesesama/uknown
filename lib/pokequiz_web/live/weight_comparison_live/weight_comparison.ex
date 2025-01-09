@@ -1,7 +1,8 @@
 defmodule PokequizWeb.WeightComparisonLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_view
-  
+
+  alias Pokequiz.Dex
 
   import PokequizWeb.CoreComponents
      
@@ -9,8 +10,8 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
   def mount(params, session, socket) do
     #TODO Sometimes this gets a weird type Kombo like normal nil
 
-    pokemon_1 = Pokequiz.Dex.Pokemon.random()
-    pokemon_2 = Pokequiz.Dex.Pokemon.random()
+    pokemon_1 = Dex.Pokemon.random()
+    pokemon_2 = Dex.Pokemon.random()
     
     socket =
       socket
@@ -27,8 +28,8 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
   def handle_event("new", _, socket) do
     socket =
       socket
-      |> assign(pokemon_1: Pokequiz.Dex.Pokemon.random())
-      |> assign(pokemon_2: Pokequiz.Dex.Pokemon.random())
+      |> assign(pokemon_1: Dex.Pokemon.random())
+      |> assign(pokemon_2: Dex.Pokemon.random())
       |> assign(won: nil)
       |> assign(show_weight: false)
       |> assign(opacity: "opacity-0")

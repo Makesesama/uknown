@@ -4,13 +4,15 @@ defmodule Pokequiz.Dex.Species do
 
   alias Pokequiz.Repo
 
+  alias Pokequiz.Dex
+
   import Ecto.Query, only: [from: 2]
   
   schema "pokemon_v2_pokemonspecies" do
     field :name, :string
 
-    has_many :pokemon, Pokequiz.Dex.Pokemon, foreign_key: :pokemon_species_id
-    has_many :names, Pokequiz.Dex.Name, foreign_key: :pokemon_species_id
+    has_many :pokemon, Dex.Pokemon, foreign_key: :pokemon_species_id
+    has_many :names, Dex.Name, foreign_key: :pokemon_species_id
   end
 
     @doc false
