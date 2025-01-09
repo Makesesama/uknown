@@ -1,13 +1,13 @@
-defmodule PokequizWeb.QuizLive.Show do
+defmodule PokequizWeb.TypeCombinationLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_view
 
   import PokequizWeb.CoreComponents
-     
+  alias Pokequiz.Dex
 
   def mount(params, session, socket) do
     #TODO Sometimes this gets a weird type Kombo like normal nil
-    types = Pokequiz.Dex.Type.get_random_kombo()
+    types = Dex.Type.get_random_kombo()
     IO.inspect(types)
     socket =
       socket
@@ -22,7 +22,7 @@ defmodule PokequizWeb.QuizLive.Show do
   end
 
   def handle_event("submit_ready", %{"player_number" => player_number, "all_ready" => all_ready}, socket) do
-    types = Pokequiz.Dex.Type.get_random_kombo()
+    types = Dex.Type.get_random_kombo()
     IO.inspect(types)
 
     players =
@@ -48,7 +48,7 @@ defmodule PokequizWeb.QuizLive.Show do
   end
   
   def handle_event("new", _, socket) do
-    types = Pokequiz.Dex.Type.get_random_kombo()
+    types = Dex.Type.get_random_kombo()
     IO.inspect(types)
     socket =
       socket
@@ -60,7 +60,7 @@ defmodule PokequizWeb.QuizLive.Show do
   end
 
   def handle_event("completion", %{"input_value" => msg}, socket) do
-    list = Pokequiz.Dex.Name.get_like(msg)
+    list = Dex.Name.get_like(msg)
   
     {:noreply, assign(socket, datalist: list)}
   end
