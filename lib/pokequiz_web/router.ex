@@ -18,11 +18,13 @@ defmodule PokequizWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    live "/quiz", QuizLive.Show
+    live "/quiz", TypeCombinationLive.Show
     
     live "/whois", WhoisLive.Show
 
     live "/weight_comparison", WeightComparisonLive.Show
+
+    live "/pokemon_for_attack", PokemonForAttackLive.Show
 
     live "/quiz_sessions", SessionsLive.Index, :index
     live "/quiz_sessions/new", SessionsLive.Index, :new

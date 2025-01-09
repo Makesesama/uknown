@@ -18,6 +18,8 @@ defmodule Pokequiz.Dex.Pokemon do
     many_to_many :types, Pokequiz.Dex.Type, join_through: "pokemon_v2_pokemontype"
 
     belongs_to :species, Pokequiz.Dex.Species, foreign_key: :pokemon_species_id
+
+    many_to_many :moves, Pokequiz.Dex.Move, join_through: "pokemon_v2_pokemonmove"
   end
 
                                                  @doc false
