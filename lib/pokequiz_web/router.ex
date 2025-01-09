@@ -22,6 +22,8 @@ defmodule PokequizWeb.Router do
     
     live "/whois", WhoisLive.Show
 
+    live "/weight_comparison", WeightComparisonLive.Show
+
     live "/quiz_sessions", SessionsLive.Index, :index
     live "/quiz_sessions/new", SessionsLive.Index, :new
     live "/quiz_sessions/:id/edit", SessionsLive.Index, :edit
