@@ -23,7 +23,7 @@ defmodule PokequizWeb.WhoisLive.Show do
       quiz
       |> Map.put(:pokemon, Dex.Pokemon.random())
       |> Map.put(:pick, ["absolute", "top-8", "left-[8%]", "filter", "brightness-0"])
-      |> Map.put(:input_value, "")
+      |> Map.put(:input_value, "") # TODO move this to local assign
       |> Map.put(:finished, false)
     
     :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
@@ -75,7 +75,7 @@ defmodule PokequizWeb.WhoisLive.Show do
   end
 
   defp via_tuple(name) do
-    {:via, Registry, {Pokequiz.GameRegistry, name}}
+    {:via, Registry, {Pokequiz.SessionRegistry, name}}
   end
 
   def startup() do

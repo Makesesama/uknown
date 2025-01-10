@@ -21,8 +21,8 @@ defmodule Pokequiz.Application do
       # {Pokequiz.Worker, arg},
       # Start to serve requests, typically the last entry
       PokequizWeb.Endpoint,
-      {Registry, keys: :unique, name: Pokequiz.GameRegistry},
-      {DynamicSupervisor, strategy: :one_for_one, name: Pokequiz.GameSupervisor}
+      {Registry, keys: :unique, name: Pokequiz.SessionRegistry},
+      {DynamicSupervisor, strategy: :one_for_one, name: Pokequiz.SessionSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

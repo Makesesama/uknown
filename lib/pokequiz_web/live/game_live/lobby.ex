@@ -3,7 +3,7 @@ defmodule PokequizWeb.GameLive.Lobby do
 
   import PokequizWeb.CoreComponents
   
-  alias Pokequiz.Game
+  alias Pokequiz.Session
 
   def mount(_params, session, socket) do
     # We need to assign the value from the cookie in mount
@@ -28,7 +28,7 @@ defmodule PokequizWeb.GameLive.Lobby do
       |> List.to_string()
   
     {:ok, _pid} =
-      DynamicSupervisor.start_child(Pokequiz.GameSupervisor, {Game, name: via_tuple(name)})
+      DynamicSupervisor.start_child(Pokequiz.SessionSupervisor, {Session, name: via_tuple(name)})
   
     {:noreply,
      push_patch(
@@ -100,7 +100,7 @@ defmodule PokequizWeb.GameLive.Lobby do
   end
   
   defp via_tuple(name) do
-    {:via, Registry, {Pokequiz.GameRegistry, name}}
+    {:via, Registry, {Pokequiz.SessionRegistry, name}}
   end
   
   defp assign_game(socket, name) do
@@ -110,7 +110,7 @@ defmodule PokequizWeb.GameLive.Lobby do
   end
   
   defp assign_game(%{assigns: %{name: name}} = socket) do
-    game = GenServer.call(via_tuple(name), :game)
+    game = GenServer.call(via_tuple(name), :session)
     assign(socket, game: game)
   end
 
