@@ -41,48 +41,52 @@ defmodule PokequizWeb.WhoisLive.Show do
     %{assigns: %{quiz: %{pokemon: pokemon}, name: name, player: player}} = socket
     %{assigns: %{quiz: quiz}} = socket
 
-    picked =
-      cond do
-        String.downcase(pokemon.name) == String.downcase(msg) ->
-          ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
-        String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg) ->
-          ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
-        true ->
-          ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"]
-      end
+    if !quiz.finished do
+      picked =
+        cond do
+          String.downcase(pokemon.name) == String.downcase(msg) ->
+            ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
+          String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg) ->
+            ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
+          true ->
+            ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"]
+        end
         
-    finished = String.downcase(pokemon.name) == String.downcase(msg) or  String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg)
+      finished = String.downcase(pokemon.name) == String.downcase(msg) or  String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg)
 
-    quiz =
-      quiz
-      |> Map.put(:pick, picked)
-      |> Map.put(:input_value, "")
-      |> Map.put(:finished, finished)
+      quiz =
+        quiz
+        |> Map.put(:pick, picked)
+        |> Map.put(:input_value, "")
+        |> Map.put(:finished, finished)
     
-    :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+      :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
+      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
 
-    player = if finished do Pokequiz.Player.increase_score(player) else player end
+      player = if finished do Pokequiz.Player.increase_score(player) else player end
 
-    :ok = GenServer.cast(via_tuple(name), {:change_player, player})
-    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+      :ok = GenServer.cast(via_tuple(name), {:change_player, player})
+      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     
-    {:noreply, socket}
+      {:noreply, socket}
+    else
+      {:noreply, socket}
+    end
   end
 
   defp via_tuple(name) do
     {:via, Registry, {Pokequiz.GameRegistry, name}}
   end
 
-    def startup() do
-      pokemon = Dex.Pokemon.random()
-      IO.inspect(pokemon)
-      %{}
-      |> Map.put(:module, __MODULE__)
-      |> Map.put(:pokemon, pokemon)
-      |> Map.put(:input_error, [])
-      |> Map.put(:pick, ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"])
-      |> Map.put(:finished, false)
+  def startup() do
+    pokemon = Dex.Pokemon.random()
+    IO.inspect(pokemon)
+    %{}
+    |> Map.put(:module, __MODULE__)
+    |> Map.put(:pokemon, pokemon)
+    |> Map.put(:input_error, [])
+    |> Map.put(:pick, ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"])
+    |> Map.put(:finished, false)
   end
 
 end
