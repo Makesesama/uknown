@@ -1,4 +1,4 @@
-defmodule PokequizWeb.PokemonForAttackLive.Show do
+defmodule PokequizWeb.PokemonForMoveLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_view
 
@@ -7,13 +7,21 @@ defmodule PokequizWeb.PokemonForAttackLive.Show do
   alias Pokequiz.Dex
 
   def mount(params, session, socket) do
-    move =Dex.Move.random()
-    IO.inspect(move)
+    move = Dex.Move.random()
+    pokemon =
+      move.pokemon
+      |>Enum.uniq()
+      |>Pokequiz.Repo.preload(species: :names)
+    
       
     socket =
       socket
       |> assign(page_title: "Pokemon Type Combination Quiz")
       |> assign(move: move)
+      |> assign(pokemon: pokemon)
+      |> assign(datalist: [])
+      |> assign(pick: 0)
+      |> assign(input_error: [])
 
 
     {:ok, socket}
@@ -21,13 +29,20 @@ defmodule PokequizWeb.PokemonForAttackLive.Show do
 
   
   def handle_event("new", _, socket) do
-    types = Dex.Type.get_random_kombo()
-    IO.inspect(types)
+    move = Dex.Move.random()
+    pokemon =
+      move.pokemon
+      |>Enum.uniq()
+      |>Pokequiz.Repo.preload(species: :names)
+
     socket =
       socket
-      |> assign(pokemon: types)
+      |> assign(move: move)
+      |> assign(pokemon: pokemon)
+      |> assign(datalist: [])
       |> assign(pick: 0)
-      |> assign(input_value: "")
+      |> assign(input_error: [])
+
 
     {:noreply, socket}
   end
@@ -41,7 +56,7 @@ defmodule PokequizWeb.PokemonForAttackLive.Show do
   def handle_event("submit", %{"input_value" => msg}, socket) do
     %{assigns: %{pokemon: pokemon}} = socket
 
-    new_pokemon = Enum.map(pokemon.pokemon, fn x ->
+    new_pokemon = Enum.map(pokemon, fn x ->
       cond do
         String.downcase(x.name) == String.downcase(msg) ->
           %{x | picked: true}
@@ -53,18 +68,18 @@ defmodule PokequizWeb.PokemonForAttackLive.Show do
     end)
 
      
-    color = if Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end)) <= Enum.count(Enum.filter(pokemon.pokemon, fn x -> x.picked end)) do
+    error = if Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end)) <= Enum.count(Enum.filter(pokemon, fn x -> x.picked end)) do
               ["Not a correct Pokemon"]
-            else
-              []
+           else
+             []
     end
         
     
     socket =
       socket
-      |> assign(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
+      |> assign(:pokemon, new_pokemon)
       |> assign(:pick, Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end)))
-      |> assign(:input_color, color)
+      |> assign(:input_error, error)
       |> assign(:input_value, "")
     
     {:noreply, socket}

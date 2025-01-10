@@ -9,15 +9,14 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
 
   def mount(params, session, socket) do
     #TODO Sometimes this gets a weird type Kombo like normal nil
+    pokemans = Dex.Pokemon.two_equal()
 
-    pokemon_1 = Dex.Pokemon.random()
-    pokemon_2 = Dex.Pokemon.random()
     
     socket =
       socket
       |> assign(page_title: "Pokemon Weight Comparison?")
-      |> assign(pokemon_1: pokemon_1)
-      |> assign(pokemon_2: pokemon_2)
+      |> assign(pokemon_1: Dex.Pokemon.weight_calc(Enum.at(pokemans, 0), :weight))
+      |> assign(pokemon_2: Dex.Pokemon.weight_calc(Enum.at(pokemans, 1), :weight))
       |> assign(won: nil)
       |> assign(show_weight: false)
       |> assign(opacity: "opacity-0")
@@ -26,10 +25,11 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
   end
 
   def handle_event("new", _, socket) do
+    pokemans = Dex.Pokemon.two_equal()
     socket =
       socket
-      |> assign(pokemon_1: Dex.Pokemon.random())
-      |> assign(pokemon_2: Dex.Pokemon.random())
+      |> assign(pokemon_1: Dex.Pokemon.weight_calc(Enum.at(pokemans, 0), :weight))
+      |> assign(pokemon_2: Dex.Pokemon.weight_calc(Enum.at(pokemans, 1), :weight))
       |> assign(won: nil)
       |> assign(show_weight: false)
       |> assign(opacity: "opacity-0")
@@ -44,7 +44,7 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
 
     socket =
       socket
-      |> assign(won: pokemon_1.weight > pokemon_2.weight)
+      |> assign(won: pokemon_1.weight >= pokemon_2.weight)
       |> assign(show_weight: true)
       |> assign(opacity: "opacity-100")
   
@@ -57,7 +57,7 @@ def handle_event("pokemon_2", _, socket) do
 
   socket =
     socket
-    |> assign(won: pokemon_2.weight > pokemon_1.weight)
+    |> assign(won: pokemon_2.weight >= pokemon_1.weight)
     |> assign(show_weight: true)
     |> assign(opacity: "opacity-100")
   

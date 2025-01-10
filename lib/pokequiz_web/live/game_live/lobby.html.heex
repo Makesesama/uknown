@@ -1,0 +1,47 @@
+<div :if={@game.state == :lobby}>
+  <p>Hey, this is a lobby!</p>
+
+  <p :if={@player}>You are {@player.name} and you are {@player.ready}</p>
+
+  <p>Gamers:</p>
+  <.live_component
+    :for={player <- @game.players}
+    module={PokequizWeb.GameLive.PlayerComponent}
+    player={player}
+    id={player.name}
+  />
+
+
+  <form :if={!@player} class="absolute bottom-4 left-56 bg-white p-2 rounded flex justify-center gap-2" phx-submit="add_player">
+    <label>Your Name:<.input class={["rounded", "border-2"]} id="msg" type="text" name="name" value=""/></label>
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
+  </form>
+
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="ready_player">Ready</button>
+
+  <button :if={Pokequiz.Player.all_ready(@game.players)} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="start_game">Start</button>
+
+</div>
+
+<div :if={@player}>Your Score is {@player.score}</div>
+
+<div :if={@game.state == :select}>
+    <.live_component
+    module={PokequizWeb.GameLive.Lobby.SelectComponent}
+    game={@game}
+    id={"1"}
+  />
+</div>
+
+<div :if={@game.state == :game}>
+  <.live_component
+    module={@game.quiz.module}
+    quiz={@game.quiz}
+    name={@name}
+    player={@player}
+    players={@game.players}
+    datalist={[]}
+    id={"2"}
+  />
+    <button :if={@game.quiz.finished} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="back_to_lobby">Back to Lobby</button>
+</div>

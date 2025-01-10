@@ -13,7 +13,7 @@ defmodule Pokequiz.Dex.Pokemon do
     field :name, :string
     field :order, :integer
     field :height, :integer
-    field :weight, :integer
+    field :weight, :float
     field :is_default, :boolean, default: false
     field :base_experience, :integer
     field :picked, :boolean, [virtual: true, default: false]
@@ -32,11 +32,32 @@ defmodule Pokequiz.Dex.Pokemon do
     |> validate_required([:name, :order, :height, :weight, :is_default, :base_experience])
   end
 
-  def random() do
-    Repo.all(Pokemon)
-    |> Enum.random
-    |> Repo.preload(:species)
-    |> Repo.preload(species: :names)
+  def weight_calc(list, field) do
+    Map.update!(list, field, fn weight -> weight /10 end)
   end
+
+  def random() do
+        Repo.all(Pokemon)
+        |> Enum.random
+        |> Repo.preload(:species)
+        |> Repo.preload(species: :names)
+  end
+
+  def two_equal() do
+
+  first = Pokemon.random()
+      max_weight = trunc(first.weight * 1.50)
+      min_weight = trunc(first.weight * 0.50)
+
+      query =
+        from p in Pokemon,
+             where: p.weight <= ^max_weight and p.id != ^first.id and p.weight >= ^min_weight and p.weight != ^first.weight,
+             select: p
+
+      results = Repo.all(query)
+    
+      Enum.shuffle([first, Enum.random(results)])
+
+    end
 
 end

@@ -1,1 +1,6 @@
 * Pokequiz
+** TODO implement pubsub and genserver for game state
+https://blog.appsignal.com/2019/08/13/elixir-alchemy-multiplayer-go-with-registry-pubsub-and-dynamic-supervisors.html
+
+** TODO storing player state so reconnect does give them player again
+https://fly.io/phoenix-files/saving-and-restoring-liveview-state/

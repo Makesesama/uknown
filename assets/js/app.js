@@ -14,6 +14,25 @@
 //
 //     import "some-package"
 //
+let Hooks = {}
+Hooks.SetSession = {
+  DEBOUNCE_MS: 200,
+
+  // Called when a LiveView is mounted, if it includes an element that uses this hook.
+  mounted() {
+    // `this.el` is the form.
+    this.el.addEventListener("input", (e) => {
+      clearTimeout(this.timeout)
+      this.timeout = setTimeout(() => {
+        // Ajax request to update session.
+        fetch(`/api/session?${e.target.name}=${encodeURIComponent(e.target.value)}`, { method: "post" })
+
+        // Optionally, include this so other LiveViews can be notified of changes.
+        this.pushEventTo(".phx-hook-subscribe-to-session", "updated_session_data", [e.target.name, e.target.value])
+      }, this.DEBOUNCE_MS)
+    })
+  },
+ }
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"
@@ -25,7 +44,8 @@ import topbar from "../vendor/topbar"
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute("content")
 let liveSocket = new LiveSocket("/live", Socket, {
   longPollFallbackMs: 2500,
-  params: {_csrf_token: csrfToken}
+    params: {_csrf_token: csrfToken},
+    hooks: Hooks,
 })
 
 // Show progress bar on live navigation and form submits

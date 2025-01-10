@@ -20,7 +20,9 @@ defmodule Pokequiz.Application do
       # Start a worker by calling: Pokequiz.Worker.start_link(arg)
       # {Pokequiz.Worker, arg},
       # Start to serve requests, typically the last entry
-      PokequizWeb.Endpoint
+      PokequizWeb.Endpoint,
+      {Registry, keys: :unique, name: Pokequiz.GameRegistry},
+      {DynamicSupervisor, strategy: :one_for_one, name: Pokequiz.GameSupervisor}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

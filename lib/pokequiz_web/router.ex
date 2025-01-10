@@ -4,6 +4,7 @@ defmodule PokequizWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
+    plug PokequizWeb.Plug.PutUserFromCookie # <-
     plug :fetch_live_flash
     plug :put_root_layout, html: {PokequizWeb.Layouts, :root}
     plug :protect_from_forgery
@@ -24,7 +25,10 @@ defmodule PokequizWeb.Router do
 
     live "/weight_comparison", WeightComparisonLive.Show
 
-    live "/pokemon_for_attack", PokemonForAttackLive.Show
+    live "/pokemon_for_move", PokemonForMoveLive.Show
+
+    live "/lobby", GameLive.Lobby
+    live "/lobby/kicked", GameLive.Lobby.Kicked
 
     live "/quiz_sessions", SessionsLive.Index, :index
     live "/quiz_sessions/new", SessionsLive.Index, :new
