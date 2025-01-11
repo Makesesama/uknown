@@ -32,32 +32,43 @@ defmodule Pokequiz.Dex.Pokemon do
     |> validate_required([:name, :order, :height, :weight, :is_default, :base_experience])
   end
 
+  def image(pokemon) do
+    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{pokemon.id}.png"
+  end
+
   def weight_calc(list, field) do
     Map.update!(list, field, fn weight -> weight /10 end)
   end
 
   def random() do
-        Repo.all(Pokemon)
-        |> Enum.random
-        |> Repo.preload(:species)
-        |> Repo.preload(species: :names)
+    Repo.all(Pokemon)
+    |> Enum.random
+    |> Repo.preload(:species)
+    |> Repo.preload(species: :names)
+  end
+
+  def random(number) do
+    Repo.all(Pokemon)
+    |> Enum.take_random(number)
+    |> Repo.preload(:species)
+    |> Repo.preload(species: :names)
   end
 
   def two_equal() do
 
-  first = Pokemon.random()
-      max_weight = trunc(first.weight * 1.50)
-      min_weight = trunc(first.weight * 0.50)
+    first = Pokemon.random()
+    max_weight = trunc(first.weight * 1.50)
+    min_weight = trunc(first.weight * 0.50)
 
-      query =
-        from p in Pokemon,
-             where: p.weight <= ^max_weight and p.id != ^first.id and p.weight >= ^min_weight and p.weight != ^first.weight,
-             select: p
+    query =
+      from p in Pokemon,
+           where: p.weight <= ^max_weight and p.id != ^first.id and p.weight >= ^min_weight and p.weight != ^first.weight,
+           select: p
 
-      results = Repo.all(query)
+    results = Repo.all(query)
     
-      Enum.shuffle([first, Enum.random(results)])
+    Enum.shuffle([first, Enum.random(results)])
 
-    end
+  end
 
 end

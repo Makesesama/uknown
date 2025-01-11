@@ -1,26 +1,27 @@
-<div :if={@game.state == :lobby}>
-  <p>Hey, this is a lobby!</p>
+<div :if={@game.state == :lobby} class="flex justify-center">
+  <div>
+    <h1 class="text-xl whitespace-nowrap">Lobby<p class="font-mono">{@name}</p></h1>
 
-  <p :if={@player}>You are {@player.name} and you are {@player.ready}</p>
+    <p :if={@player}>You are {@player.name} and you are {@player.ready}</p>
 
-  <p>Gamers:</p>
-  <.live_component
-    :for={player <- @game.players}
-    module={PokequizWeb.GameLive.PlayerComponent}
-    player={player}
-    id={player.name}
-  />
+    <p>Gamers:</p>
+    <.live_component
+      :for={player <- @game.players}
+      module={PokequizWeb.GameLive.PlayerComponent}
+      player={player}
+      id={player.name}
+    />
 
 
-  <form :if={!@player} class="absolute bottom-4 left-56 bg-white p-2 rounded flex justify-center gap-2" phx-submit="add_player">
-    <label>Your Name:<.input class={["rounded", "border-2"]} id="msg" type="text" name="name" value=""/></label>
-    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
-  </form>
+    <form :if={!@player} class="absolute bottom-4 left-56 bg-white p-2 rounded flex justify-center gap-2" phx-submit="add_player">
+      <label>Your Name:<.input class={["rounded", "border-2"]} id="msg" type="text" name="name" value=""/></label>
+      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
+    </form>
 
-  <button :if={@player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="ready_player">Ready</button>
+    <button :if={@player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="ready_player">Ready</button>
 
-  <button :if={Pokequiz.Player.all_ready(@game.players)} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="start_game">Start</button>
-
+    <button :if={Pokequiz.Player.all_ready(@game.players)} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="start_game">Start</button>
+  </div>
 </div>
 
 <div :if={@player}>Your Score is {@player.score}</div>

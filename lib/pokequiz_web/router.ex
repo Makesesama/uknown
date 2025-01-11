@@ -18,7 +18,8 @@ defmodule PokequizWeb.Router do
   scope "/", PokequizWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    live "/",   HomeLive
+    
     live "/quiz", TypeCombinationLive.Show
     
     live "/whois", WhoisLive.Show
@@ -60,4 +61,4 @@ defmodule PokequizWeb.Router do
         forward "/mailbox", Plug.Swoosh.MailboxPreview
       end
     end
-end
+        end
