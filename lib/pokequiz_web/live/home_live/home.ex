@@ -52,7 +52,7 @@ defmodule PokequizWeb.HomeLive do
           <div class="max-w-40 h-full">
             <div class="h-full w-40 flex flex-col [mask-image:_linear-gradient(to_top,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
               <%= for _ <- 1..2 do %>
-              <ul class="grid grid-cols-1 gap-4 items-center justify-center md:justify-start animate-infinite-scroll">
+              <ul class="grid grid-cols-1 gap-4 items-center justify-center md:justify-start animate-infinite-scroll pb-4">
                 <%= for pokemon <- @pokemon do %>
                 <li class="w-40 border border-2 border-yellow-200 rounded rounded-lg z-10">
                   <img class="w-40 h-40 z-10" width="40%" height="40%" alt={pokemon.name} src={Pokequiz.Dex.Pokemon.image(pokemon)} />
