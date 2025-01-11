@@ -2,20 +2,13 @@ defmodule PokequizWeb.WhoisLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_component
 
+  import Pokequiz.Session.Helper
   import PokequizWeb.CoreComponents
 
   alias Pokequiz.Dex
 
-  @impl true
-  def mount(params, session, socket) do
-    #TODO Sometimes this gets a weird type Kombo like normal nil
-
-    socket =
-      socket
-      |> assign(datalist: [])
-
-    {:ok, socket}
-  end
+  def display_name(), do: "Who is that Pokemon?"
+  def value_handle(), do: "whois"
 
   def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
@@ -23,11 +16,11 @@ defmodule PokequizWeb.WhoisLive.Show do
       quiz
       |> Map.put(:pokemon, Dex.Pokemon.random())
       |> Map.put(:pick, ["absolute", "top-8", "left-[8%]", "filter", "brightness-0"])
-      |> Map.put(:input_value, "") # TODO move this to local assign
       |> Map.put(:finished, false)
     
     :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+    
     {:noreply, socket}
   end
 
@@ -57,7 +50,6 @@ defmodule PokequizWeb.WhoisLive.Show do
       quiz =
         quiz
         |> Map.put(:pick, picked)
-        |> Map.put(:input_value, "")
         |> Map.put(:finished, finished)
     
       :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
@@ -68,14 +60,10 @@ defmodule PokequizWeb.WhoisLive.Show do
       :ok = GenServer.cast(via_tuple(name), {:change_player, player})
       :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     
-      {:noreply, socket}
+      {:noreply, assign(socket, input_value: "")}
     else
       {:noreply, socket}
     end
-  end
-
-  defp via_tuple(name) do
-    {:via, Registry, {Pokequiz.SessionRegistry, name}}
   end
 
   def startup() do
@@ -84,7 +72,6 @@ defmodule PokequizWeb.WhoisLive.Show do
     %{}
     |> Map.put(:module, __MODULE__)
     |> Map.put(:pokemon, pokemon)
-    |> Map.put(:input_error, [])
     |> Map.put(:pick, ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"])
     |> Map.put(:finished, false)
   end

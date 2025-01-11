@@ -3,7 +3,7 @@ defmodule Pokequiz.Session do
   alias __MODULE__
   alias Pokequiz.Player
 
-  defstruct [players: [], turn: 0, state: :lobby, quiz: %{module: nil, finished: false}]
+  defstruct [players: [], turn: 0, state: :lobby, quiz: %{module: nil, finished: false}, settings: %Pokequiz.Session.Settings{}]
   
   use GenServer
 

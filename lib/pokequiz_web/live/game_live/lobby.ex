@@ -1,6 +1,7 @@
 defmodule PokequizWeb.GameLive.Lobby do
   use PokequizWeb, :live_view
 
+  import Pokequiz.Session.Helper
   import PokequizWeb.CoreComponents
   
   alias Pokequiz.Session
@@ -77,6 +78,9 @@ defmodule PokequizWeb.GameLive.Lobby do
   def handle_event("select_quiz", %{"value" => quiz}, %{assigns: %{name: name}} = socket) do
     quiz_module = case quiz do
       "whois" -> PokequizWeb.WhoisLive.Show.startup()
+      "weight_comparison" -> PokequizWeb.WeightComparisonLive.Show.startup()
+      "pokemon_for_move" -> PokequizWeb.PokemonForMoveLive.Show.startup()
+      "type_combination" -> PokequizWeb.TypeCombinationLive.Show.startup()
     end
     
     :ok = GenServer.cast(via_tuple(name), {:select_quiz, quiz_module})
@@ -99,10 +103,6 @@ defmodule PokequizWeb.GameLive.Lobby do
     {:noreply, socket}
   end
   
-  defp via_tuple(name) do
-    {:via, Registry, {Pokequiz.SessionRegistry, name}}
-  end
-  
   defp assign_game(socket, name) do
     socket
     |> assign(name: name)
@@ -120,9 +120,13 @@ defmodule PokequizWeb.GameLive.Lobby do
   end
 
   defp update_player(%{assigns: %{game: %{players: players}, player: player}} = socket) do
-    player = Pokequiz.Player.restore_from_name(players, player.name)
-    IO.inspect(player)
-    assign(socket, player: player) 
+    if player do
+      player = Pokequiz.Player.restore_from_name(players, player.name)
+      IO.inspect(player)
+      assign(socket, player: player)
+    else
+      socket
+    end
   end
 
   defp check_kicked(%{assigns: %{game: %{players: players}, player: player}} = socket) do
