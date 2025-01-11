@@ -26,7 +26,7 @@ defmodule PokequizWeb.HomeLive do
               <div class="container flex justify-center mx-auto">
                 <div class="flex flex-col justify-center gap-2 min-w-80">
                   <div class="grid justify-center">
-                    <button class="bg-mauve text-black text-2xl font-medium px-4 py-2 rounded shadow" >
+                    <button class="bg-mauve/80 text-black text-2xl font-medium px-4 py-2 rounded shadow" >
                       <.link href="/lobby">Open new Lobby</.link>
                     </button>
                     <div class="flex justify-center">
@@ -34,7 +34,7 @@ defmodule PokequizWeb.HomeLive do
                     </div>
                     <div>
                       <button>
-                        <form class="bottom-4 left-56 bg-white p-2 rounded flex justify-center gap-2" phx-submit="join_lobby">
+                        <form class="bottom-4 left-56 p-2 rounded flex justify-center gap-2" phx-submit="join_lobby">
                           <.input id="join_lobby" type="text" name="lobby_input" value="" minlength="6" placeholder="Input Code here to join"/>
                           <button class="bg-indian_red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
                         </form>
@@ -47,7 +47,7 @@ defmodule PokequizWeb.HomeLive do
           </header>
         </div>
       </div>
-      <div class="max-h-100% overflow-hidden w-full h-48 object-cover sm:h-screen sm:w-4/12 bg-eerie_black">
+      <div class="max-h-100% overflow-hidden w-full h-48 object-cover sm:h-screen sm:w-4/12 bg-gunmetal-400">
         <div class="w-full flex justify-center">
           <div class="max-w-40 h-full">
             <div class="h-full w-40 flex flex-col [mask-image:_linear-gradient(to_top,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
