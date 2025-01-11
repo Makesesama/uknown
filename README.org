@@ -1,6 +1,44 @@
 * Pokequiz
-** TODO implement pubsub and genserver for game state
+** DONE implement pubsub and genserver for game state
+CLOSED: [2025-01-11 Sa 16:44]
+- State "DONE"       from "TODO"       [2025-01-11 Sa 16:44]
 https://blog.appsignal.com/2019/08/13/elixir-alchemy-multiplayer-go-with-registry-pubsub-and-dynamic-supervisors.html
 
-** TODO storing player state so reconnect does give them player again
+** DONE storing player state so reconnect does give them player again
+CLOSED: [2025-01-11 Sa 16:44]
+- State "DONE"       from "TODO"       [2025-01-11 Sa 16:44]
 https://fly.io/phoenix-files/saving-and-restoring-liveview-state/
+
+** Fix who is multiplayer
+man kann schnell hintereinander abgeben und dann resettet sich das komisch
+
+** whois vote skip
+
+** lobby settings
+- query only gens x-y
+
+** player settings
+- language
+
+** weight comparison allow visitors
+visitors can click on the images, make it, that the completion function checks for @player
+
+
+          <div class="h-full flex-col justify-evenly gap-2 animate-infinite-scroll">
+            <%= for pokemon <- @pokemon do %>
+            <div class="border border-2 border-yellow-200 rounded rounded-lg max-w-40 z-10">
+              <img class="w-40 h-40 z-10" width="40%" height="40%" alt={pokemon.name} src={Pokequiz.Dex.Pokemon.image(pokemon)} />
+            </div>
+            <% end %>
+          </div>
+          <div class="h-full flex-col justify-evenly gap-2 animate-infinite-scroll">
+            <%= for pokemon <- @pokemon do %>
+            <div class="border border-2 border-yellow-200 rounded rounded-lg max-w-40">
+              <img class="w-40 h-40" width="40%" height="40%" alt={pokemon.name} src={Pokequiz.Dex.Pokemon.image(pokemon)} />
+            </div>
+            <% end %>
+          </div>
+
+          
+** Add genserver timeout
+https://elixirforum.com/t/is-there-a-way-to-self-terminate-a-genserver-after-no-activity/2889/6

@@ -10,16 +10,44 @@ defmodule PokequizWeb.WhoisLive.Show do
   def display_name(), do: "Who is that Pokemon?"
   def value_handle(), do: "whois"
 
+  def render(assigns) do
+    ~H"""
+    <div>
+      <div class="relative">
+        <img class="2xl:w-fit" width="100%" height="100%" alt="Unkown Pokemon" src={"/images/whois.png"} />
+        <img class={[@quiz.pick, "2xl:w-4/12"]} width="40%" height="40%" alt="Unkown Pokemon" src={Dex.Pokemon.image(@quiz.pokemon)} />
+
+        <form :if={@player && !@quiz.finished} class="absolute bottom-4 left-56 text-black font-bold text-xl p-2 rounded flex justify-center gap-2" phx-submit="submit" phx-change="completion" phx-target={@myself}>
+          <label>Your Guess:<.input list="pokemon-names" errors={@input_error} class={["rounded", "border-2"]} id="msg" type="text" name="input_value" value=""/></label>
+          <button class="bg-blue-500 hover:bg-blue-700 border border-2 border-black text-white font-bold py-2 px-4 rounded rounded-lg">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
+        </form>
+
+        <button :if={@player && @quiz.finished} phx-click="new" class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-target={@myself}>Next</button>
+
+
+        <p class="absolute origin-center -rotate-12 text-4xl font-bold text-yellow-400 right-[20%] top-[35%]" :if={@quiz.finished}>{@quiz.pokemon.name}</p>
+      </div>
+
+
+
+      <datalist id="pokemon-names">
+        <%= for data <- @datalist do %>
+        <option value={data.name}></option>
+        <%end %>
+      </datalist>
+    </div>
+    """
+  end
+
   def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
     quiz =
       quiz
       |> Map.put(:pokemon, Dex.Pokemon.random())
-      |> Map.put(:pick, ["absolute", "top-8", "left-[8%]", "filter", "brightness-0"])
+      |> Map.put(:pick, "absolute top-8 left-[8%] filter brightness-0")
       |> Map.put(:finished, false)
     
-    :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+    notify_other(name, quiz)
     
     {:noreply, socket}
   end
@@ -38,11 +66,11 @@ defmodule PokequizWeb.WhoisLive.Show do
       picked =
         cond do
           String.downcase(pokemon.name) == String.downcase(msg) ->
-            ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
+            "absolute transition duration-1000 top-8 left-[8%] filter"
           String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg) ->
-            ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter"]
+            "absolute transition duration-1000 top-8 left-[8%] filter"
           true ->
-            ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"]
+            "absolute transition duration-1000 top-8 left-[8%] filter brightness-0"
         end
         
       finished = String.downcase(pokemon.name) == String.downcase(msg) or  String.downcase(Enum.at(pokemon.species.names, 5).name) == String.downcase(msg)
@@ -51,9 +79,8 @@ defmodule PokequizWeb.WhoisLive.Show do
         quiz
         |> Map.put(:pick, picked)
         |> Map.put(:finished, finished)
-    
-      :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+
+      notify_other(name, quiz)
 
       player = if finished do Pokequiz.Player.increase_score(player) else player end
 
@@ -72,7 +99,7 @@ defmodule PokequizWeb.WhoisLive.Show do
     %{}
     |> Map.put(:module, __MODULE__)
     |> Map.put(:pokemon, pokemon)
-    |> Map.put(:pick, ["absolute", "transition", "duration-1000", "top-8", "left-[8%]", "filter", "brightness-0"])
+    |> Map.put(:pick, "absolute transition duration-1000 top-8 left-[8%] filter brightness-0")
     |> Map.put(:finished, false)
   end
 
