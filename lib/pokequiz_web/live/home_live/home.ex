@@ -20,23 +20,23 @@ defmodule PokequizWeb.HomeLive do
           </nav>
           <header class="container px-4 lg:flex mt-10 items-center h-full lg:mt-0">
             <div class="w-full">
-              <h1 class="text-4xl lg:text-6xl font-bold">Catch Your Friends like Pokemon</h1>
+              <h1 class="text-4xl lg:text-6xl font-bold">{gettext("Catch Your Friends like Pokemon")}</h1>
               <div class="w-20 h-2 bg-mauve-700 my-4"></div>
-              <p class="text-xl mb-10">Play Pokemon Quizzes like "Who is that Pokemon" or "Which Pokemon is heavier".</p>
+              <p class="text-xl mb-10">{gettext("Play Pokemon Quizzes like 'Who is that Pokemon' or 'Which Pokemon is heavier'")}.</p>
               <div class="container flex justify-center mx-auto">
                 <div class="flex flex-col justify-center gap-2 min-w-80">
                   <div class="grid justify-center">
                     <button class="bg-mauve/80 text-black text-2xl font-medium px-4 py-2 rounded shadow" >
-                      <.link href="/lobby">Open new Lobby</.link>
+                      <.link href="/lobby">{gettext("Open new Lobby")}</.link>
                     </button>
                     <div class="flex justify-center">
-                      <p class="font-bold p-2">or</p>
+                      <p class="font-bold p-2">{gettext("or")}</p>
                     </div>
                     <div>
                       <button>
                         <form class="bottom-4 left-56 p-2 rounded flex justify-center gap-2" phx-submit="join_lobby">
-                          <.input id="join_lobby" type="text" name="lobby_input" value="" minlength="6" placeholder="Input Code here to join"/>
-                          <button class="bg-indian_red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
+                          <.input id="join_lobby" type="text" name="lobby_input" value="" minlength="6" placeholder={gettext("Input Code here to join")}/>
+                          <button class="bg-indian_red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
                         </form>
                       </button>
                     </div>

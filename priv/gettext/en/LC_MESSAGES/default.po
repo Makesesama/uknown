@@ -52,22 +52,57 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:43
+#: lib/pokequiz/dex/pokemon.ex:52
 #, elixir-autogen, elixir-format
 msgid "galarian"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:45
+#: lib/pokequiz/dex/pokemon.ex:54
 #, elixir-autogen, elixir-format
 msgid "gmax"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:44
+#: lib/pokequiz/dex/pokemon.ex:53
 #, elixir-autogen, elixir-format
 msgid "hisui"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:42
+#: lib/pokequiz/dex/pokemon.ex:51
 #, elixir-autogen, elixir-format
 msgid "mega"
+msgstr ""
+
+#: lib/pokequiz_web/components/layouts/app.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Get Started"
+msgstr ""
+
+#: lib/pokequiz_web/live/home_live/home.ex:23
+#, elixir-autogen, elixir-format
+msgid "Catch Your Friends like Pokemon"
+msgstr ""
+
+#: lib/pokequiz_web/live/home_live/home.ex:38
+#, elixir-autogen, elixir-format
+msgid "Input Code here to join"
+msgstr ""
+
+#: lib/pokequiz_web/live/home_live/home.ex:30
+#, elixir-autogen, elixir-format
+msgid "Open new Lobby"
+msgstr ""
+
+#: lib/pokequiz_web/live/home_live/home.ex:25
+#, elixir-autogen, elixir-format
+msgid "Play Pokemon Quizzes like 'Who is that Pokemon' or 'Which Pokemon is heavier'"
+msgstr ""
+
+#: lib/pokequiz_web/live/home_live/home.ex:39
+#, elixir-autogen, elixir-format
+msgid "Send"
+msgstr ""
+
+#: lib/pokequiz_web/live/home_live/home.ex:33
+#, elixir-autogen, elixir-format
+msgid "or"
 msgstr ""
