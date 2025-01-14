@@ -40,6 +40,7 @@
           </div>
       </div>
       <button :if={@player} phx-click="new" phx-target={@myself} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+      <button :if={@player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="back_to_lobby">Back to Lobby</button>
     </div>
   </div>
 </div>
