@@ -18,11 +18,18 @@ defmodule PokequizWeb.WhoisLive.Show do
         <img class={[@quiz.pick, "2xl:w-4/12"]} width="40%" height="40%" alt="Unkown Pokemon" src={Dex.Pokemon.image(@quiz.pokemon)} />
 
         <form :if={@player && !@quiz.finished} class="absolute bottom-4 left-56 text-black font-bold text-xl p-2 rounded flex justify-center gap-2" phx-submit="submit" phx-change="completion" phx-target={@myself}>
-          <label>Your Guess:<.input list="pokemon-names" errors={@input_error} class={["rounded", "border-2"]} id="msg" type="text" name="input_value" value=""/></label>
+          <label>Your Guess:<.input list="pokemon-names" errors={@input_error} class={["rounded", "border-2"]} id="msg" type="text" name="input_value" value="" autofocus="true"/></label>
           <button class="bg-blue-500 hover:bg-blue-700 border border-2 border-black text-white font-bold py-2 px-4 rounded rounded-lg">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
         </form>
 
-        <button :if={@player && @quiz.finished} phx-click="new" class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-target={@myself}>Next</button>
+        <.modal id="confirm-modal">
+          <div class="text-black">
+            Do you really want to the next?
+            <button :if={@player && @quiz.finished} phx-click={hide_modal("confirm-modal") |> JS.push("new")} class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-target={@myself}>Next</button>
+          </div>
+        </.modal>
+
+        <button :if={@player && @quiz.finished}  phx-click={show_modal("confirm-modal")} class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
 
 
         <p class="absolute origin-center -rotate-12 text-4xl font-bold text-yellow-400 right-[20%] top-[35%]" :if={@quiz.finished}>{@quiz.pokemon.name}</p>
@@ -38,7 +45,7 @@ defmodule PokequizWeb.WhoisLive.Show do
     </div>
     """
   end
-
+  
   def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
     quiz =

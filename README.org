@@ -23,22 +23,5 @@ man kann schnell hintereinander abgeben und dann resettet sich das komisch
 ** weight comparison allow visitors
 visitors can click on the images, make it, that the completion function checks for @player
 
-
-          <div class="h-full flex-col justify-evenly gap-2 animate-infinite-scroll">
-            <%= for pokemon <- @pokemon do %>
-            <div class="border border-2 border-yellow-200 rounded rounded-lg max-w-40 z-10">
-              <img class="w-40 h-40 z-10" width="40%" height="40%" alt={pokemon.name} src={Pokequiz.Dex.Pokemon.image(pokemon)} />
-            </div>
-            <% end %>
-          </div>
-          <div class="h-full flex-col justify-evenly gap-2 animate-infinite-scroll">
-            <%= for pokemon <- @pokemon do %>
-            <div class="border border-2 border-yellow-200 rounded rounded-lg max-w-40">
-              <img class="w-40 h-40" width="40%" height="40%" alt={pokemon.name} src={Pokequiz.Dex.Pokemon.image(pokemon)} />
-            </div>
-            <% end %>
-          </div>
-
-          
 ** Add genserver timeout
 https://elixirforum.com/t/is-there-a-way-to-self-terminate-a-genserver-after-no-activity/2889/6

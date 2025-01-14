@@ -75,7 +75,7 @@ defmodule PokequizWeb.CoreComponents do
                   class="-m-3 flex-none p-3 opacity-20 hover:opacity-40"
                   aria-label={gettext("close")}
                 >
-                  <.icon name="hero-x-mark-solid" class="h-5 w-5" />
+                  <.icon name="hero-x-mark-solid" class="h-5 w-5 bg-black" />
                 </button>
               </div>
               <div id={"#{@id}-content"}>
