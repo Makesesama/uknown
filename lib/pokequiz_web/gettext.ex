@@ -21,5 +21,5 @@ defmodule PokequizWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext.Backend, otp_app: :pokequiz
+  use Gettext.Backend, otp_app: :pokequiz, default_locale: "de", locales: ~w(de en)
 end

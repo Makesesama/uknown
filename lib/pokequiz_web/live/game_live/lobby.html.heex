@@ -31,8 +31,13 @@
           current_player={if @player do player.name == @player.name else false end}
         />
         </div>
+        <.modal id="homescreen-modal">
+          <div class="flex justify-center">
+            <.button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click={JS.navigate("/")}>Confirm</.button>
+          </div>
+        </.modal>
         <div class="fixed bottom-2 flex justify-center">
-          <.button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click={JS.navigate("/")}>Go Back to Homescreen</.button>
+          <.button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click={show_modal("homescreen-modal")}>Go Back to Homescreen</.button>
         </div>
       </div>
     </div>

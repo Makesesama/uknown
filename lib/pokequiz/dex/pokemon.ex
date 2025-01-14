@@ -1,6 +1,7 @@
 defmodule Pokequiz.Dex.Pokemon do
   use Ecto.Schema
   import Ecto.Changeset
+  use Gettext, backend: PokequizWeb.Gettext
 
   alias Pokequiz.Repo
 
@@ -36,15 +37,48 @@ defmodule Pokequiz.Dex.Pokemon do
     "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{pokemon.id}.png"
   end
 
+  defp get_language_base_name(pokemon) do
+    case Gettext.get_locale(PokequizWeb.Gettext) do
+      "de" -> Enum.at(pokemon.species.names, 5)
+      "en" -> Enum.at(pokemon.species.names, 8)
+      _ -> Enum.at(pokemon.species.names, 8)
+    end
+  end
+
+  defp convert_name(pokemon) do
+    base_name = get_language_base_name(pokemon)
+    case String.split(pokemon.name, "-") do
+      [ _ , "mega"] -> "#{gettext("mega")} #{base_name.name}"
+      [ _ , "galar"] -> "#{gettext("galarian")} #{base_name.name}"
+      [ _ , "hisui"] -> "#{gettext("hisui")} #{base_name.name}"
+      [ _ , "gmax"] -> "#{gettext("gmax")} #{base_name.name}"
+      _ -> base_name.name
+    end
+  end
+  
+  def convert_to(%Pokemon{} = pokemon) do
+    %{pokemon | name: convert_name(pokemon)}
+  end
+
+  def convert_to([] = pokemon) do
+    Enum.map(pokemon, fn x ->    %{x | name: convert_name(x)} end)
+  end
+
   def weight_calc(list, field) do
     Map.update!(list, field, fn weight -> weight /10 end)
+  end
+
+  def get_by_name(name) do
+    Repo.get_by(Pokemon, name: name)
+    |> Repo.preload(species: :names)
+    |> convert_to
   end
 
   def random() do
     Repo.all(Pokemon)
     |> Enum.random
-    |> Repo.preload(:species)
     |> Repo.preload(species: :names)
+    |> convert_to()
   end
 
   def random(number) do

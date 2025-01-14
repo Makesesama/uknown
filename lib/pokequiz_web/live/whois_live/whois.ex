@@ -7,6 +7,8 @@ defmodule PokequizWeb.WhoisLive.Show do
 
   alias Pokequiz.Dex
 
+  @spriteless ["togedemaru-totem", "koraidon-gliding-build"]
+
   def display_name(), do: "Who is that Pokemon?"
   def value_handle(), do: "whois"
 
@@ -25,14 +27,15 @@ defmodule PokequizWeb.WhoisLive.Show do
         <.modal id="confirm-modal">
           <div class="text-black">
             Do you really want to the next?
-            <button :if={@player && @quiz.finished} phx-click={hide_modal("confirm-modal") |> JS.push("new")} class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-target={@myself}>Next</button>
+            <button :if={@player} phx-click={hide_modal("confirm-modal") |> JS.push("new")} class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-target={@myself}>Next</button>
           </div>
         </.modal>
 
-        <button :if={@player && @quiz.finished}  phx-click={show_modal("confirm-modal")} class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+        <button :if={@player}  phx-click={show_modal("confirm-modal")} class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
 
 
         <p class="absolute origin-center -rotate-12 text-4xl font-bold text-yellow-400 right-[20%] top-[35%]" :if={@quiz.finished}>{@quiz.pokemon.name}</p>
+
       </div>
 
 
@@ -48,9 +51,11 @@ defmodule PokequizWeb.WhoisLive.Show do
   
   def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
+    pokemon = Dex.Pokemon.get_by_name("charizard-gmax")
+    IO.inspect(pokemon)
     quiz =
       quiz
-      |> Map.put(:pokemon, Dex.Pokemon.random())
+      |> Map.put(:pokemon, pokemon)
       |> Map.put(:pick, "absolute top-8 left-[8%] filter brightness-0")
       |> Map.put(:finished, false)
     
