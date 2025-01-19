@@ -11,6 +11,19 @@ msgstr ""
 "Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
 #: lib/pokequiz_web/components/core_components.ex:482
 #, elixir-autogen, elixir-format
 msgid "Actions"
@@ -97,6 +110,7 @@ msgstr ""
 msgid "Play Pokemon Quizzes like 'Who is that Pokemon' or 'Which Pokemon is heavier'"
 msgstr ""
 
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:12
 #: lib/pokequiz_web/live/home_live/home.ex:39
 #, elixir-autogen, elixir-format
 msgid "Send"
@@ -105,4 +119,48 @@ msgstr ""
 #: lib/pokequiz_web/live/home_live/home.ex:33
 #, elixir-autogen, elixir-format
 msgid "or"
+msgstr ""
+
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Gamers"
+msgstr ""
+
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "Go Back to Homescreen"
+msgstr ""
+
+#: lib/pokequiz_web/components/player.ex:21
+#: lib/pokequiz_web/live/game_live/components/player.ex:15
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Ready"
+msgstr ""
+
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:11
+#, elixir-autogen, elixir-format
+msgid "Your Name"
+msgstr ""
+
+#: lib/pokequiz_web/components/player.ex:19
+#: lib/pokequiz_web/live/game_live/components/player.ex:13
+#, elixir-autogen, elixir-format
+msgid "Not Ready"
+msgstr ""
+
+#: lib/pokequiz_web/components/player.ex:24
+#: lib/pokequiz_web/live/game_live/components/player.ex:18
+#, elixir-autogen, elixir-format
+msgid "Remove"
+msgstr ""
+
+#: lib/pokequiz_web/components/player.ex:15
+#, elixir-autogen, elixir-format
+msgid "Score"
+msgstr ""
+
+#: lib/pokequiz_web/components/player.ex:14
+#, elixir-autogen, elixir-format, fuzzy
+msgid "You"
 msgstr ""

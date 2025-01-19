@@ -8,20 +8,20 @@
         </div>
 
         <form :if={!@player} class="bottom-4 left-56  p-2 rounded flex justify-center gap-2" phx-submit="add_player">
-          <label>Your Name:<.input class={["rounded", "border-2"]} id="msg" type="text" name="name" value=""/></label>
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
+          <label>{gettext("Your Name")}:<.input class={["rounded", "border-2"]} id="msg" type="text" name="name" value=""/></label>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
         </form>
         
         <div class="flex gap-2 px-10 p-2 justify-between">
           <div>
-            <.button :if={@player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="ready_player">Ready</.button>
+            <.button :if={@player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="ready_player">{gettext("Ready")}</.button>
           </div>
           <div>
-            <.button :if={Pokequiz.Player.all_ready(@game.players)} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="start_game">Start</.button>
+            <.button :if={Pokequiz.Player.all_ready(@game.players) && @player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="start_game">Start</.button>
           </div>
         </div>
         
-        <h2 class="text-xl font-semibold pt-20 pb-4">Gamers:</h2>
+        <h2 class="text-xl font-semibold pt-20 pb-4">{gettext("Gamers")}:</h2>
 
         <div class="flex justify-evenly gap-2 p-2">
         <Pokequiz.Components.Player.card
@@ -37,7 +37,7 @@
           </div>
         </.modal>
         <div class="fixed bottom-2 flex justify-center">
-          <.button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click={show_modal("homescreen-modal")}>Go Back to Homescreen</.button>
+          <.button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click={show_modal("homescreen-modal")}>{gettext("Go Back to Homescreen")}</.button>
         </div>
       </div>
     </div>
