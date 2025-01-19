@@ -28,9 +28,8 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
       |> Map.put(:pokemon, types)
       |> Map.put(:pick, 0)
       |> Map.put(:finished, false)
-    
-    :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+
+    push_quiz(name, quiz)
     
     {:noreply, socket}
   end
@@ -72,14 +71,12 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
         |> Map.put(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
         |> Map.put(:finished, finished)
         |> Map.put(:pick, picked)
-    
-      :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+
+      push_quiz(name, quiz)
 
       player = if error == [] do Pokequiz.Player.increase_score(player) else player end
-      
-      :ok = GenServer.cast(via_tuple(name), {:change_player, player})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+
+      push_player(name, player)
       
       socket =
         socket

@@ -40,8 +40,7 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
       |> Map.put(:pick, 0)
       |> Map.put(:finished, false)
 
-    :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+    push_quiz(name, quiz)
     
     {:noreply, socket}
   end
@@ -82,14 +81,12 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
         |> Map.put(:pokemon, new_pokemon)
         |> Map.put(:finished, finished)
         |> Map.put(:pick, picked)
-    
-      :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+
+      push_quiz(name, quiz)
 
       player = if error == [] do Pokequiz.Player.increase_score(player) else player end
 
-      :ok = GenServer.cast(via_tuple(name), {:change_player, player})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+      push_player(name, player)
 
       socket =
         socket

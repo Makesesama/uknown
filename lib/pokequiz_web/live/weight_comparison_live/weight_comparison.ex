@@ -22,8 +22,7 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
       |> Map.put(:finished, false)
       |> Map.put(:won, false)
 
-    :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+    push_quiz(name, quiz)
     
     {:noreply, socket}
   end
@@ -41,14 +40,12 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
         |> Map.put(:opacity, "opacity-100")
         |> Map.put(:finished, true)
         |> Map.put(:won, won)
-    
-      :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+
+      push_quiz(name, quiz)
 
       player = if won do Pokequiz.Player.increase_score(player) else player end
 
-      :ok = GenServer.cast(via_tuple(name), {:change_player, player})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+      push_player(name, player)
     end
     
     {:noreply, socket}  
@@ -66,14 +63,12 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
         |> Map.put(:opacity, "opacity-100")
         |> Map.put(:finished, true)
         |> Map.put(:won, won)
-    
-      :ok = GenServer.cast(via_tuple(name), {:update_quiz, quiz})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+
+      push_quiz(name, quiz)
 
       player = if won do Pokequiz.Player.increase_score(player) else player end
 
-      :ok = GenServer.cast(via_tuple(name), {:change_player, player})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+      push_player(name, player)
     end
     
     {:noreply, socket}  

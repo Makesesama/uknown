@@ -59,7 +59,7 @@ defmodule PokequizWeb.WhoisLive.Show do
       |> Map.put(:pick, "absolute top-8 left-[8%] filter brightness-0")
       |> Map.put(:finished, false)
     
-    notify_other(name, quiz)
+    push_quiz(name, quiz)
     
     {:noreply, socket}
   end
@@ -92,13 +92,12 @@ defmodule PokequizWeb.WhoisLive.Show do
         |> Map.put(:pick, picked)
         |> Map.put(:finished, finished)
 
-      notify_other(name, quiz)
+      push_quiz(name, quiz)
 
       player = if finished do Pokequiz.Player.increase_score(player) else player end
 
-      :ok = GenServer.cast(via_tuple(name), {:change_player, player})
-      :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
-    
+      push_player(name, player)
+      
       {:noreply, assign(socket, input_value: "")}
     else
       {:noreply, socket}
