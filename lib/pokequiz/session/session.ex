@@ -8,6 +8,7 @@ defmodule Pokequiz.Session do
   use GenServer
 
   @states [:lobby, :select, :game]
+  @timeout 1800000
  
   def start_link(options) do
     GenServer.start_link(__MODULE__, %Session{}, options)
@@ -15,12 +16,12 @@ defmodule Pokequiz.Session do
  
   @impl true
   def init(session) do
-    {:ok, session}
+    {:ok, session, @timeout}
   end
  
   @impl true
   def handle_call(:session, _from, session) do
-    {:reply, session, session}
+    {:reply, session, session, @timeout}
   end
  
   # @impl true
@@ -30,27 +31,27 @@ defmodule Pokequiz.Session do
 
   @impl true
   def handle_cast({:add_player, player}, session) do
-    {:noreply, Session.add_player(session, player)}
+    {:noreply, Session.add_player(session, player), @timeout}
   end
 
   @impl true
   def handle_cast({:ready_player, player}, session) do
-    {:noreply, Session.change_player(session, player)}
+    {:noreply, Session.change_player(session, player), @timeout}
   end
 
   @impl true
   def handle_cast({:remove_player, player_name}, session) do
-    {:noreply, Session.remove_player(session, player_name)}
+    {:noreply, Session.remove_player(session, player_name), @timeout}
   end
 
   @impl true
   def handle_cast({:change_player, player}, session) do
-    {:noreply, Session.change_player(session, player)}
+    {:noreply, Session.change_player(session, player), @timeout}
   end
 
   @impl true
   def handle_cast({:change_state, state}, session) do
-    {:noreply, Session.change_state(session, state)}
+    {:noreply, Session.change_state(session, state), @timeout}
   end
 
   def handle_cast({:select_quiz, quiz}, session) do
@@ -58,12 +59,12 @@ defmodule Pokequiz.Session do
       session
       |> Session.change_state(:game)
       |> Session.set_quiz(quiz)
-    {:noreply, session}
+    {:noreply, session, @timeout}
   end
 
   @impl true
   def handle_cast({:update_quiz, quiz}, session) do
-    {:noreply, Session.update_quiz(session, quiz)}
+    {:noreply, Session.update_quiz(session, quiz), @timeout}
   end
  
   # @impl true
