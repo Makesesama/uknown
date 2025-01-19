@@ -89,7 +89,6 @@ defmodule Pokequiz.Dex.Pokemon do
   end
 
   def two_equal() do
-
     first = Pokemon.random()
     max_weight = trunc(first.weight * 1.50)
     min_weight = trunc(first.weight * 0.50)
@@ -102,7 +101,6 @@ defmodule Pokequiz.Dex.Pokemon do
     results = Repo.all(query)
     
     Enum.shuffle([first, Enum.random(results)])
-
   end
 
 end

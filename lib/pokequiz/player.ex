@@ -9,16 +9,16 @@ defmodule Pokequiz.Player do
   end
 
   def restore_from_name(players, name) do
-    Enum.find(players, fn x -> x.name == name end)
+    get_from_list(players, name)
   end
 
   def all_ready(players) do
-    all_players =
-      players
-      |> Enum.map(fn x -> x.ready end)
-      |> Enum.all?()
+    # Enum.reduce(players, %{ready: true}, fn x, acc -> x.ready && acc.ready end)
+    !Enum.any?(players, fn player -> player.ready == false end)
+  end
 
-    all_players and Enum.count(players) > 0
+  def all_vote(players) do
+    !Enum.any?(players, fn player -> player.vote == false end)
   end
 
   def increase_score(players, player) do
@@ -36,5 +36,22 @@ defmodule Pokequiz.Player do
     IO.inspect(score)
     Map.put(player, :score, score + 1)
   end
-  
+
+  def get_from_list(players, name) do
+    Enum.find(players, fn player -> player.name == name end)
+  end
+
+  def update_in_list(players, player) do
+    Enum.map(players, fn x ->
+      if x.name == player.name do
+        player
+      else
+        x
+      end
+    end)
+  end
+
+  def remove_from_list(players, name) do
+    Enum.filter(players, fn x -> x.name != name end)
+  end
 end
