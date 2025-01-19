@@ -46,6 +46,7 @@ defmodule PokequizWeb.GameLive.Lobby do
     socket =
       socket
       |> assign(player: player)
+      |> put_flash(:info, "Joined the game as #{player.name}")
     
     :ok = GenServer.cast(via_tuple(name), {:add_player, player})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
