@@ -71,9 +71,10 @@ defmodule PokequizWeb.HomeLive do
   
   def mount(_params, session, socket) do
     # We need to assign the value from the cookie in mount
+    pokemon = Pokequiz.Dex.Pokemon.random(8)
     socket =
       socket
-      |>assign(:pokemon, Pokequiz.Dex.Pokemon.random(8))
+      |>assign(:pokemon, pokemon)
     {:ok, socket}
   end
 

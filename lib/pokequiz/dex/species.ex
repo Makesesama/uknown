@@ -10,6 +10,7 @@ defmodule Pokequiz.Dex.Species do
   
   schema "pokemon_v2_pokemonspecies" do
     field :name, :string
+    field :generation_id, :integer
 
     has_many :pokemon, Dex.Pokemon, foreign_key: :pokemon_species_id
     has_many :names, Dex.Name, foreign_key: :pokemon_species_id

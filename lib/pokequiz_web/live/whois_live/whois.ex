@@ -7,7 +7,6 @@ defmodule PokequizWeb.WhoisLive.Show do
 
   alias Pokequiz.Dex
 
-  @spriteless ["togedemaru-totem", "koraidon-gliding-build"]
 
   def display_name(), do: "Who is that Pokemon?"
   def value_handle(), do: "whois"
@@ -103,7 +102,6 @@ defmodule PokequizWeb.WhoisLive.Show do
 
   def startup() do
     pokemon = Dex.Pokemon.random()
-    IO.inspect(pokemon)
     %{}
     |> Map.put(:module, __MODULE__)
     |> Map.put(:pokemon, pokemon)

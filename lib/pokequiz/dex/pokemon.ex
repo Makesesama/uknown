@@ -10,6 +10,8 @@ defmodule Pokequiz.Dex.Pokemon do
 
   import Ecto.Query, only: [from: 2]
 
+  @spriteless ["togedemaru-totem", "koraidon-gliding-build"]
+
   schema "pokemon_v2_pokemon" do
     field :name, :string
     field :order, :integer
@@ -18,6 +20,7 @@ defmodule Pokequiz.Dex.Pokemon do
     field :is_default, :boolean, default: false
     field :base_experience, :integer
     field :picked, :boolean, [virtual: true, default: false]
+    field :has_sprite, :boolean, [virtual: true, default: true]
     
     many_to_many :types, Dex.Type, join_through: "pokemon_v2_pokemontype"
 
@@ -56,11 +59,11 @@ defmodule Pokequiz.Dex.Pokemon do
     end
   end
   
-  def convert_to(%Pokemon{} = pokemon) do
+  defp convert_to(%Pokemon{} = pokemon) do
     %{pokemon | name: convert_name(pokemon)}
   end
 
-  def convert_to([] = pokemon) do
+  defp convert_to(pokemon) do
     Enum.map(pokemon, fn x ->    %{x | name: convert_name(x)} end)
   end
 
@@ -71,36 +74,54 @@ defmodule Pokequiz.Dex.Pokemon do
   def get_by_name(name) do
     Repo.get_by(Pokemon, name: name)
     |> Repo.preload(species: :names)
-    |> convert_to
-  end
-
-  def random() do
-    Repo.all(Pokemon)
-    |> Enum.random
-    |> Repo.preload(species: :names)
     |> convert_to()
+    |> add_is_spriteless()
   end
 
-  def random(number) do
-    Repo.all(Pokemon)
-    |> Enum.take_random(number)
-    |> Repo.preload(:species)
-    |> Repo.preload(species: :names)
+  def random(number \\ 1, generation_blacklist \\ []) do
+    query =
+      from poke in Pokemon,
+           join: s in Dex.Species,
+           on: poke.pokemon_species_id == s.id,
+           limit: ^number,
+           where: s.generation_id not in ^generation_blacklist,
+           order_by: fragment("RANDOM()")
+      
+    pokemon =
+      Repo.all(query)
+      |> Repo.preload(species: :names)
+      |> convert_to()
+      |> add_is_spriteless()
+
+    if number == 1 do Enum.at(pokemon, 0) else pokemon end
   end
 
-  def two_equal() do
-    first = Pokemon.random()
+  def two_equal(1, generation_blacklist \\ []) do
+    first = Pokemon.random(1, generation_blacklist)
     max_weight = trunc(first.weight * 1.50)
     min_weight = trunc(first.weight * 0.50)
 
     query =
       from p in Pokemon,
            where: p.weight <= ^max_weight and p.id != ^first.id and p.weight >= ^min_weight and p.weight != ^first.weight,
-           select: p
+           select: p,
+           limit: 1
 
-    results = Repo.all(query)
+    results = Repo.one(query)
     
-    Enum.shuffle([first, Enum.random(results)])
+    Enum.shuffle([first, results])
   end
 
+  defp add_is_spriteless(%Pokemon{} = pokemon) do
+    if pokemon.name in @spriteless do
+      %{pokemon | has_sprite: false}
+    else
+      pokemon
+    end
+  end
+
+  defp add_is_spriteless(pokemon) do
+    Enum.map(pokemon, fn x -> add_is_spriteless(x) end)
+  end
+  
 end
