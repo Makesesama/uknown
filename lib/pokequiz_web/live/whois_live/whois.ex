@@ -91,12 +91,9 @@ defmodule PokequizWeb.WhoisLive.Show do
         quiz
         |> Map.put(:pick, picked)
         |> Map.put(:finished, finished)
+        |> Map.put(:won, finished)
 
-      push_quiz(name, quiz)
-
-      player = if finished do Pokequiz.Player.increase_score(player) else player end
-
-      push_player(name, player)
+      game_end?(name, quiz, player)
       
       {:noreply, assign(socket, input_value: "")}
     else
@@ -112,6 +109,7 @@ defmodule PokequizWeb.WhoisLive.Show do
     |> Map.put(:pokemon, pokemon)
     |> Map.put(:pick, "absolute transition duration-1000 top-8 left-[8%] filter brightness-0")
     |> Map.put(:finished, false)
+    |> Map.put(:won, false)
   end
 
 end

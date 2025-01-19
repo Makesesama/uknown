@@ -10,22 +10,7 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
   def display_name(), do: "Which Pokemon learn this Move?"
   def value_handle(), do: "pokemon_for_move"
   
-  def startup() do
-    move = Dex.Move.random()
-    pokemon =
-      move.pokemon
-      |>Enum.uniq()
-      |>Pokequiz.Repo.preload(species: :names)
-    
-    %{}
-    |> Map.put(:module, __MODULE__)
-    |> Map.put(:pokemon, pokemon)
-    |> Map.put(:move, move)
-    |> Map.put(:pick, 0)
-    |> Map.put(:finished, false)
-  end
 
-  
   def handle_event("new", _, %{assigns: %{quiz: quiz, name: name}} = socket) do
     move = Dex.Move.random()
     pokemon =
@@ -81,12 +66,9 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
         |> Map.put(:pokemon, new_pokemon)
         |> Map.put(:finished, finished)
         |> Map.put(:pick, picked)
+        |> Map.put(:won, finished)
 
-      push_quiz(name, quiz)
-
-      player = if error == [] do Pokequiz.Player.increase_score(player) else player end
-
-      push_player(name, player)
+      game_end?(name, quiz, player)
 
       socket =
         socket
@@ -97,5 +79,21 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
     else
       {:noreply, socket}
     end
+  end
+
+  def startup() do
+    move = Dex.Move.random()
+    pokemon =
+      move.pokemon
+      |>Enum.uniq()
+      |>Pokequiz.Repo.preload(species: :names)
+    
+    %{}
+    |> Map.put(:module, __MODULE__)
+    |> Map.put(:pokemon, pokemon)
+    |> Map.put(:move, move)
+    |> Map.put(:pick, 0)
+    |> Map.put(:finished, false)
+    |> Map.put(:won, false)
   end
 end

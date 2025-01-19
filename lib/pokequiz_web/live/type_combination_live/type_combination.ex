@@ -10,15 +10,6 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
   def display_name(), do:  "Which Pokemon have these types?"
   def value_handle(), do: "type_combination"
   
-  def startup() do
-    types = Dex.Type.get_random_kombo()
-
-    %{}
-    |> Map.put(:module, __MODULE__)
-    |> Map.put(:pokemon, types)
-    |> Map.put(:pick, 0)
-    |> Map.put(:finished, false)
-  end
 
   def handle_event("new", _, %{assigns: %{quiz: quiz, name: name}} = socket) do
     types = Dex.Type.get_random_kombo()
@@ -71,12 +62,9 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
         |> Map.put(:pokemon, %{pokemon: new_pokemon, types: pokemon.types})
         |> Map.put(:finished, finished)
         |> Map.put(:pick, picked)
+        |> Map.put(:won, finished)
 
-      push_quiz(name, quiz)
-
-      player = if error == [] do Pokequiz.Player.increase_score(player) else player end
-
-      push_player(name, player)
+      game_end?(name, quiz, player)
       
       socket =
         socket
@@ -89,4 +77,15 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
     end
   end
 
+
+  def startup() do
+    types = Dex.Type.get_random_kombo()
+
+    %{}
+    |> Map.put(:module, __MODULE__)
+    |> Map.put(:pokemon, types)
+    |> Map.put(:pick, 0)
+    |> Map.put(:finished, false)
+    |> Map.put(:won, false)
+  end
 end

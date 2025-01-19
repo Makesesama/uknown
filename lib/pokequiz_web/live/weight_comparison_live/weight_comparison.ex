@@ -64,11 +64,8 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
         |> Map.put(:finished, true)
         |> Map.put(:won, won)
 
-      push_quiz(name, quiz)
 
-      player = if won do Pokequiz.Player.increase_score(player) else player end
-
-      push_player(name, player)
+      game_end?(name, quiz, player)
     end
     
     {:noreply, socket}  
