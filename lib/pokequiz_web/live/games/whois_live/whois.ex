@@ -1,6 +1,8 @@
-defmodule PokequizWeb.WhoisLive.Show do
+defmodule PokequizWeb.Games.WhoisLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_component
+  
+  @behaviour Pokequiz.Game
 
   import Pokequiz.Session.Helper
   import PokequizWeb.CoreComponents
@@ -51,7 +53,6 @@ defmodule PokequizWeb.WhoisLive.Show do
   def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
     pokemon = Dex.Pokemon.get_by_name("charizard-gmax")
-    IO.inspect(pokemon)
     quiz =
       quiz
       |> Map.put(:pokemon, pokemon)
@@ -73,7 +74,9 @@ defmodule PokequizWeb.WhoisLive.Show do
     %{assigns: %{quiz: %{pokemon: pokemon}, name: name, player: player}} = socket
     %{assigns: %{quiz: quiz}} = socket
 
-    if !quiz.finished do
+    if quiz.finished do
+      {:noreply, socket}
+    else      
       picked =
         cond do
           String.downcase(pokemon.name) == String.downcase(msg) ->
@@ -95,12 +98,14 @@ defmodule PokequizWeb.WhoisLive.Show do
       game_end?(name, quiz, player)
       
       {:noreply, assign(socket, input_value: "")}
-    else
-      {:noreply, socket}
     end
   end
 
-  def startup() do
+  def finish_check(name, quiz, player) do
+    {:noreply, name, quiz, player}
+  end
+
+  def init() do
     pokemon = Dex.Pokemon.random()
     %{}
     |> Map.put(:module, __MODULE__)

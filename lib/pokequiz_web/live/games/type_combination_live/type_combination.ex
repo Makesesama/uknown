@@ -1,7 +1,9 @@
-defmodule PokequizWeb.TypeCombinationLive.Show do
+defmodule PokequizWeb.Games.TypeCombinationLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_component
 
+  @behaviour Pokequiz.Game
+  
   import Pokequiz.Session.Helper
   import PokequizWeb.CoreComponents
   
@@ -35,7 +37,9 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
     %{assigns: %{quiz: %{pokemon: pokemon}, name: name, player: player}} = socket
     %{assigns: %{quiz: quiz}} = socket
     
-    if !quiz.finished do
+    if quiz.finished do
+      {:noreply, socket}     
+    else
       new_pokemon = Enum.map(pokemon.pokemon, fn x ->
         cond do
           String.downcase(x.name) == String.downcase(msg) ->
@@ -47,12 +51,12 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
         end
       end)
 
-      picked = Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end))
+      picked = Enum.count(new_pokemon, fn x -> x.picked end)
      
-      error = if picked <= Enum.count(Enum.filter(pokemon.pokemon, fn x -> x.picked end)) do
+      error = if picked <= Enum.count(pokemon.pokemon, fn x -> x.picked end) do
                 ["Not a correct Pokemon"]
-             else
-               []
+              else
+                []
       end
 
       finished = picked == Enum.count(new_pokemon)
@@ -72,13 +76,11 @@ defmodule PokequizWeb.TypeCombinationLive.Show do
         |> assign(:input_value, "")
     
       {:noreply, socket}
-    else
-      {:noreply, socket}
     end
   end
 
 
-  def startup() do
+  def init() do
     types = Dex.Type.get_random_kombo()
 
     %{}

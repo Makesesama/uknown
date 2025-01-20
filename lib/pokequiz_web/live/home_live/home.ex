@@ -89,7 +89,6 @@ defmodule PokequizWeb.HomeLive do
   end
 
   defp extract(url) do
-    IO.inspect(URI.parse(url))
     case URI.parse(url) do
       %URI{host: nil} -> "/lobby?name=#{url}"
       %URI{path: path} = %URI{host: "localhost"} -> path

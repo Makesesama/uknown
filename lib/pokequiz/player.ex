@@ -33,7 +33,6 @@ defmodule Pokequiz.Player do
   end
 
   def increase_score(player = %Player{score: score}) do
-    IO.inspect(score)
     Map.put(player, :score, score + 1)
   end
 

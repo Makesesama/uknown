@@ -1,6 +1,8 @@
-defmodule PokequizWeb.WeightComparisonLive.Show do
+defmodule PokequizWeb.Games.WeightComparisonLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_component
+
+  @behaviour Pokequiz.Game
 
   alias Pokequiz.Dex
   import Pokequiz.Session.Helper
@@ -71,7 +73,7 @@ defmodule PokequizWeb.WeightComparisonLive.Show do
     {:noreply, socket}  
   end
 
-  def startup() do
+  def init() do
     pokemans = Dex.Pokemon.two_equal()
 
     %{}

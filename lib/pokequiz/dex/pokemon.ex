@@ -96,7 +96,7 @@ defmodule Pokequiz.Dex.Pokemon do
     if number == 1 do Enum.at(pokemon, 0) else pokemon end
   end
 
-  def two_equal(1, generation_blacklist \\ []) do
+  def two_equal(generation_blacklist \\ []) do
     first = Pokemon.random(1, generation_blacklist)
     max_weight = trunc(first.weight * 1.50)
     min_weight = trunc(first.weight * 0.50)

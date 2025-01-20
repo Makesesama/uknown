@@ -1,14 +1,12 @@
 defmodule Pokequiz.Session do
 
   alias __MODULE__
-  alias Pokequiz.Player
 
   defstruct [players: [], turn: 0, state: :lobby, quiz: %{module: nil, finished: false}, settings: %Pokequiz.Session.Settings{}]
   
   use GenServer
 
-  @states [:lobby, :select, :game]
-  @timeout 1800000
+  @timeout 1_800_000
  
   def start_link(options) do
     GenServer.start_link(__MODULE__, %Session{}, options)
@@ -54,11 +52,16 @@ defmodule Pokequiz.Session do
     {:noreply, Session.change_state(session, state), @timeout}
   end
 
+  @impl true
+  def handle_cast({:update_settings, settings}, session) do
+    {:noreply, Session.update_settings(session, settings), @timeout}
+  end
+
   def handle_cast({:select_quiz, quiz}, session) do
     session =
       session
       |> Session.change_state(:game)
-      |> Session.set_quiz(quiz)
+      |> Session.update_quiz(quiz)
     {:noreply, session, @timeout}
   end
 
@@ -66,15 +69,9 @@ defmodule Pokequiz.Session do
   def handle_cast({:update_quiz, quiz}, session) do
     {:noreply, Session.update_quiz(session, quiz), @timeout}
   end
- 
-  # @impl true
-  # def handle_cast({:jump, destination}, session) do
-  #   {:noreply, Session.jump(session, destination)}
-  # end
- 
+
   def turn() do
   end
-
 
   def add_player(session, player) do
     %{session | players: session.players ++ [player]}
@@ -97,12 +94,12 @@ defmodule Pokequiz.Session do
     %{session | state: state}
   end
 
-  def set_quiz(session, quiz) do
+  def update_quiz(session, quiz) do
     %{session | quiz: quiz}
   end
 
-  def update_quiz(session, quiz) do
-    %{session | quiz: quiz}
+  def update_settings(session, settings) do
+    %{session | settings: settings}
   end
   
 end

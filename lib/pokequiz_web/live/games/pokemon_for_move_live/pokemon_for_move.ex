@@ -1,7 +1,7 @@
-defmodule PokequizWeb.PokemonForMoveLive.Show do
+defmodule PokequizWeb.Games.PokemonForMoveLive.Show do
   # In a typical Phoenix app, the following line would usually be `use MyAppWeb, :live_view`
   use PokequizWeb, :live_component
-
+  @behaviour Pokequiz.Game
   import Pokequiz.Session.Helper
   import PokequizWeb.CoreComponents
 
@@ -39,7 +39,9 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
     %{assigns: %{quiz: %{pokemon: pokemon}, name: name, player: player}} = socket
     %{assigns: %{quiz: quiz}} = socket
 
-    if !quiz.finished do
+    if quiz.finished do
+      {:noreply, socket}
+    else
       new_pokemon = Enum.map(pokemon, fn x ->
         cond do
           String.downcase(x.name) == String.downcase(msg) ->
@@ -51,9 +53,9 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
         end
       end)
 
-      picked = Enum.count(Enum.filter(new_pokemon, fn x -> x.picked end))
+      picked = Enum.count(new_pokemon, fn x -> x.picked end)
       
-      error = if picked <= Enum.count(Enum.filter(pokemon, fn x -> x.picked end)) do
+      error = if picked <= Enum.count(pokemon, fn x -> x.picked end) do
                 ["Not a correct Pokemon"]
               else
                 []
@@ -76,12 +78,10 @@ defmodule PokequizWeb.PokemonForMoveLive.Show do
         |> assign(input_value: "")
       
       {:noreply, socket}
-    else
-      {:noreply, socket}
     end
   end
 
-  def startup() do
+  def init() do
     move = Dex.Move.random()
     pokemon =
       move.pokemon

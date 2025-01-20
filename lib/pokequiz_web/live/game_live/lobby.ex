@@ -78,10 +78,10 @@ defmodule PokequizWeb.GameLive.Lobby do
 
   def handle_event("select_quiz", %{"value" => quiz}, %{assigns: %{name: name}} = socket) do
     quiz_module = case quiz do
-      "whois" -> PokequizWeb.WhoisLive.Show.startup()
-      "weight_comparison" -> PokequizWeb.WeightComparisonLive.Show.startup()
-      "pokemon_for_move" -> PokequizWeb.PokemonForMoveLive.Show.startup()
-      "type_combination" -> PokequizWeb.TypeCombinationLive.Show.startup()
+      "whois" -> PokequizWeb.Games.WhoisLive.Show.init()
+      "weight_comparison" -> PokequizWeb.Games.WeightComparisonLive.Show.init()
+      "pokemon_for_move" -> PokequizWeb.Games.PokemonForMoveLive.Show.init()
+      "type_combination" -> PokequizWeb.Games.TypeCombinationLive.Show.init()
     end
     
     :ok = GenServer.cast(via_tuple(name), {:select_quiz, quiz_module})
@@ -91,6 +91,16 @@ defmodule PokequizWeb.GameLive.Lobby do
 
   def handle_event("back_to_lobby", _, %{assigns: %{name: name}} = socket) do
     :ok = GenServer.cast(via_tuple(name), {:change_state, :lobby})
+    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+    {:noreply, socket}
+  end
+
+  def handle_event("generation_filter", %{"0" => zero, "1" => one, "2" => two, "3" => three, "4" => four, "5" => five, "6" => six, "7" => seven, "8" => eight}, %{assigns: %{name: name}} = socket) do
+    settings = socket.assigns.game.settings
+    generations = Enum.map([zero, one, two, three, four, five, six, seven, eight], fn x -> convert_bool(x) end)
+    
+    settings =  %{settings | generations: generations}
+    :ok = GenServer.cast(via_tuple(name), {:update_settings, settings})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     {:noreply, socket}
   end
@@ -123,7 +133,6 @@ defmodule PokequizWeb.GameLive.Lobby do
   defp update_player(%{assigns: %{game: %{players: players}, player: player}} = socket) do
     if player do
       player = Pokequiz.Player.restore_from_name(players, player.name)
-      IO.inspect(player)
       assign(socket, player: player)
     else
       socket
@@ -141,5 +150,7 @@ defmodule PokequizWeb.GameLive.Lobby do
       socket
     end
   end
-  
+
+  defp convert_bool("true"), do: true
+  defp convert_bool("false"), do: false
 end
