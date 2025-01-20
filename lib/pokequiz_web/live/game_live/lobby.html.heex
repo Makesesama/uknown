@@ -1,5 +1,5 @@
 <div :if={@game.state == :lobby} class="flex justify-center">
-  <.button class="absolute top-20 right-12" :if={@player} phx-click={show_modal("settings-modal")}>Settings</.button>
+
   <div class="h-screen flex items-center justify-center">
     <div class="container h-[80%]">
       <div>
@@ -93,3 +93,5 @@
 
 
 </div>
+
+<.button class="absolute top-20 right-12" :if={@player != nil and (@game.state == :lobby or @game.quiz.finished)} phx-click={show_modal("settings-modal")}>Settings</.button>
