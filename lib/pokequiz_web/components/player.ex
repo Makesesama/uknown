@@ -12,16 +12,16 @@ defmodule Pokequiz.Components.Player do
       ]}
     >
       <h5 class="text-xl font-bold tracking-right">{@player.name} <%= if @current_player do "(" <> gettext("You") <> ")" end %> </h5>
-        <p>{gettext("Score")}: {@player.score}</p>
+        <p :if={!@friendly}>{gettext("Score")}: {@player.score}</p>
 
-        <%= case @player.ready do %>
-        <% false -> %>
-        {gettext("Not Ready")}
-        <% true -> %>
-        {gettext("Ready")}
-        <% end %>
+          <%= case @player.ready do %>
+          <% false -> %>
+          {gettext("Not Ready")}
+          <% true -> %>
+          {gettext("Ready")}
+          <% end %>
 
-        <.button :if={@current_player} class="bg-red-500" value={@player.name} phx-click="remove_player">{gettext("Remove")}</.button>
+          <.button :if={@current_player} class="bg-red-500" value={@player.name} phx-click="remove_player">{gettext("Remove")}</.button>
     </div>
     """
   end

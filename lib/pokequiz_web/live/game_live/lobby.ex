@@ -95,11 +95,11 @@ defmodule PokequizWeb.GameLive.Lobby do
     {:noreply, socket}
   end
 
-  def handle_event("generation_filter", %{"0" => zero, "1" => one, "2" => two, "3" => three, "4" => four, "5" => five, "6" => six, "7" => seven, "8" => eight}, %{assigns: %{name: name}} = socket) do
+  def handle_event("generation_filter", %{"0" => zero, "1" => one, "2" => two, "3" => three, "4" => four, "5" => five, "6" => six, "7" => seven, "8" => eight, "friendly" => friendly}, %{assigns: %{name: name}} = socket) do
     settings = socket.assigns.game.settings
     generations = [one: convert_bool(zero), two: convert_bool(one), three: convert_bool(two), four: convert_bool(three), five: convert_bool(four), six: convert_bool(five), seven: convert_bool(six), eight: convert_bool(seven), nine: convert_bool(eight)]
     
-    settings =  %{settings | generations: generations}
+    settings =  %{settings | generations: generations, friendly: convert_bool(friendly)}
     :ok = GenServer.cast(via_tuple(name), {:update_settings, settings})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     {:noreply, socket}
@@ -111,6 +111,7 @@ defmodule PokequizWeb.GameLive.Lobby do
       |> assign_game()
       |> check_kicked()
       |> update_player()
+
     {:noreply, socket}
   end
   

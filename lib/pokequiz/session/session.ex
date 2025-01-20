@@ -2,7 +2,15 @@ defmodule Pokequiz.Session do
 
   alias __MODULE__
 
-  defstruct [players: [], turn: 0, state: :lobby, quiz: %{module: nil, finished: false}, settings: %Pokequiz.Session.Settings{}]
+  defstruct [
+    players: [],
+    state: :lobby,
+    quiz: %{module: nil, finished: false},
+    settings: %Pokequiz.Session.Settings{},
+    rounds: [],
+    max_rounds: 10,
+    current_round: 1
+  ]
   
   use GenServer
 
@@ -74,9 +82,12 @@ defmodule Pokequiz.Session do
   end
 
   def add_player(session, player) do
-    %{session | players: session.players ++ [player]}
+    players = session.players ++ [player]
+    
+    session
+    |> Map.put(:players, players)
+    |> Map.put(:rounds, Session.Round.generate_rounds(players, session.max_rounds))
   end
-
 
   def change_player(session, player) do
     players = Enum.map(session.players, fn x ->

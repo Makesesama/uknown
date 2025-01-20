@@ -30,6 +30,7 @@
           player={player}
           id={player.name}
           current_player={if @player do player.name == @player.name else false end}
+          friendly={@game.settings.friendly}
         />
         </div>
         <.modal id="homescreen-modal">
@@ -54,6 +55,9 @@
           <.label class="flex">Gen {number + 1}</.label><.input class={["rounded", "border-2"]} id="msg" type="checkbox" name={number} checked={elem(Enum.at(@game.settings.generations, number), 1)}/>
         </div>
         <% end %>
+        <div class="flex justify-between">
+          <.label class="flex">Friendly</.label><.input class={["rounded", "border-2"]} id="msg" type="checkbox" name="friendly" checked={@game.settings.friendly}/>
+        </div>
       </div>
     </form>
   </div>
@@ -88,6 +92,7 @@
       player={player}
       id={player.name}
       current_player={if @player do player.name == @player.name else false end}
+      friendly={@game.settings.friendly}
     />
   </div>
 

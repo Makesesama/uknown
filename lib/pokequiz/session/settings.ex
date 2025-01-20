@@ -1,7 +1,13 @@
 defmodule Pokequiz.Session.Settings do
   alias __MODULE__
 
-  defstruct [gens: :all, max_player: 4, password: nil, generations: [one: true, two: true, three: true, four: true, five: true, six: true, seven: true, eight: true, nine: true]]
+  defstruct [
+    gens: :all,
+    max_player: 4,
+    password: nil,
+    generations: [one: true, two: true, three: true, four: true, five: true, six: true, seven: true, eight: true, nine: true],
+    friendly: false,
+  ]
 
   def generations_to_blacklist(generations) do
     Enum.filter(generations, fn {_, v} -> !v end)
