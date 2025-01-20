@@ -68,20 +68,20 @@ defmodule PokequizWeb.Games.PokemonForMoveLive.Show do
         |> Map.put(:pokemon, new_pokemon)
         |> Map.put(:finished, finished)
         |> Map.put(:pick, picked)
-        |> Map.put(:won, finished)
+        |> Map.put(:won, false)
 
-      game_end?(name, quiz, player)
+      game_end(name, quiz, player)
 
       socket =
         socket
         |> assign(input_error: error)
         |> assign(input_value: "")
-      
+
       {:noreply, socket}
     end
   end
 
-  def init() do
+  def init(socket) do
     move = Dex.Move.random()
     pokemon =
       move.pokemon

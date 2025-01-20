@@ -103,8 +103,9 @@ defmodule Pokequiz.Dex.Pokemon do
 
     query =
       from p in Pokemon,
-           where: p.weight <= ^max_weight and p.id != ^first.id and p.weight >= ^min_weight and p.weight != ^first.weight,
-           select: p,
+           join: s in Dex.Species,
+           on: p.pokemon_species_id == s.id,
+           where: p.weight <= ^max_weight and p.id != ^first.id and p.weight >= ^min_weight and p.weight != ^first.weight and s.generation_id not in ^generation_blacklist,
            limit: 1
 
     results = Repo.one(query)

@@ -79,9 +79,9 @@ defmodule PokequizWeb.GameLive.Lobby do
   def handle_event("select_quiz", %{"value" => quiz}, %{assigns: %{name: name}} = socket) do
     quiz_module = case quiz do
       "whois" -> PokequizWeb.Games.WhoisLive.Show.init(socket)
-      "weight_comparison" -> PokequizWeb.Games.WeightComparisonLive.Show.init()
-      "pokemon_for_move" -> PokequizWeb.Games.PokemonForMoveLive.Show.init()
-      "type_combination" -> PokequizWeb.Games.TypeCombinationLive.Show.init()
+      "weight_comparison" -> PokequizWeb.Games.WeightComparisonLive.Show.init(socket)
+      "pokemon_for_move" -> PokequizWeb.Games.PokemonForMoveLive.Show.init(socket)
+      "type_combination" -> PokequizWeb.Games.TypeCombinationLive.Show.init(socket)
     end
     
     :ok = GenServer.cast(via_tuple(name), {:select_quiz, quiz_module})
@@ -100,9 +100,9 @@ defmodule PokequizWeb.GameLive.Lobby do
     generations = [one: convert_bool(zero), two: convert_bool(one), three: convert_bool(two), four: convert_bool(three), five: convert_bool(four), six: convert_bool(five), seven: convert_bool(six), eight: convert_bool(seven), nine: convert_bool(eight)]
     
     settings =  %{settings | generations: generations}
-        :ok = GenServer.cast(via_tuple(name), {:update_settings, settings})
-          :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
-            {:noreply, socket}
+    :ok = GenServer.cast(via_tuple(name), {:update_settings, settings})
+    :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
+    {:noreply, socket}
   end
 
   def handle_info(:update, socket) do

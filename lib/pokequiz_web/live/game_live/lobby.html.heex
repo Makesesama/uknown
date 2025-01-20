@@ -47,7 +47,7 @@
 
 <.modal id="settings-modal">
   <div class="text-black">
-    <form class="bottom-4 left-56 p-2 rounded gap-2" phx-submit="generation_filter">
+    <form class="bottom-4 left-56 p-2 rounded gap-2" phx-change="generation_filter">
       <div class="grid grid-cols-1">
         <%= for number <- 0..8 do %>
         <div class="flex justify-between">
@@ -55,7 +55,6 @@
         </div>
         <% end %>
       </div>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
     </form>
   </div>
 </.modal>

@@ -68,19 +68,19 @@ defmodule PokequizWeb.Games.TypeCombinationLive.Show do
         |> Map.put(:pick, picked)
         |> Map.put(:won, finished)
 
-      game_end?(name, quiz, player)
+      game_end(name, quiz, player)
       
       socket =
         socket
         |> assign(:input_error, error)
         |> assign(:input_value, "")
-    
+
       {:noreply, socket}
     end
   end
 
 
-  def init() do
+  def init(socket) do
     types = Dex.Type.get_random_kombo()
 
     %{}

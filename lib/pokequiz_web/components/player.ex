@@ -21,7 +21,7 @@ defmodule Pokequiz.Components.Player do
         {gettext("Ready")}
         <% end %>
 
-        <.button :if={!@current_player} class="bg-red-500" value={@player.name} phx-click="remove_player">{gettext("Remove")}</.button>
+        <.button :if={@current_player} class="bg-red-500" value={@player.name} phx-click="remove_player">{gettext("Remove")}</.button>
     </div>
     """
   end
