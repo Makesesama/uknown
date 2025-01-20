@@ -1,5 +1,5 @@
 <div :if={@game.state == :lobby} class="flex justify-center">
-  <.button :if={@player} phx-click={show_modal("settings-modal")}>Settings</.button>
+  <.button class="absolute top-20 right-12" :if={@player} phx-click={show_modal("settings-modal")}>Settings</.button>
   <div class="h-screen flex items-center justify-center">
     <div class="container h-[80%]">
       <div>
@@ -51,7 +51,7 @@
       <div class="grid grid-cols-1">
         <%= for number <- 0..8 do %>
         <div class="flex justify-between">
-          <.label class="flex">Gen {number + 1}</.label><.input class={["rounded", "border-2"]} id="msg" type="checkbox" name={number} checked={Enum.at(@game.settings.generations, number)}/>
+          <.label class="flex">Gen {number + 1}</.label><.input class={["rounded", "border-2"]} id="msg" type="checkbox" name={number} checked={elem(Enum.at(@game.settings.generations, number), 1)}/>
         </div>
         <% end %>
       </div>
@@ -76,6 +76,7 @@
     name={@name}
     player={@player}
     players={@game.players}
+    settings={@game.settings}
     datalist={[]}
     input_error={[]}
     id={"2"}

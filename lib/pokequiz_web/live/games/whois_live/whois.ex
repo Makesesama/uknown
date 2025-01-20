@@ -52,7 +52,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
   
   def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
-    pokemon = Dex.Pokemon.get_by_name("charizard-gmax")
+    pokemon = Dex.Pokemon.random(1, Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations))
     quiz =
       quiz
       |> Map.put(:pokemon, pokemon)
@@ -105,8 +105,8 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
     {:noreply, name, quiz, player}
   end
 
-  def init() do
-    pokemon = Dex.Pokemon.random()
+  def init(socket) do
+    pokemon = Dex.Pokemon.random(1, Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.game.settings.generations))
     %{}
     |> Map.put(:module, __MODULE__)
     |> Map.put(:pokemon, pokemon)
