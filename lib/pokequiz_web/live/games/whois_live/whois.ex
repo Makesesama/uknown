@@ -10,7 +10,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
   alias Pokequiz.Dex
 
 
-  def display_name(), do: "Who is that Pokemon?"
+  def display_name(), do: gettext("Who is that Pokemon?")
   def value_handle(), do: "whois"
 
   def render(assigns) do
@@ -50,7 +50,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
     """
   end
   
-  def handle_event("new", _, socket) do
+    def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
     pokemon = Dex.Pokemon.random(1, Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations))
     quiz =

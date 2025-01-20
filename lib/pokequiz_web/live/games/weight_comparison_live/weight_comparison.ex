@@ -9,7 +9,7 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
   
   import PokequizWeb.CoreComponents
      
-  def display_name(), do: "Who is heavier?"
+  def display_name(), do: gettext("Who is heavier?")
   def value_handle(), do: "weight_comparison"
    
 

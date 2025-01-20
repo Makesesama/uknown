@@ -7,7 +7,7 @@ defmodule PokequizWeb.Games.PokemonForMoveLive.Show do
 
   alias Pokequiz.Dex
 
-  def display_name(), do: "Which Pokemon learn this Move?"
+  def display_name(), do: gettext("Which Pokemon learn this Move?")
   def value_handle(), do: "pokemon_for_move"
   
 

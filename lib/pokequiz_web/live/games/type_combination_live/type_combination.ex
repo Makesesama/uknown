@@ -9,7 +9,7 @@ defmodule PokequizWeb.Games.TypeCombinationLive.Show do
   
   alias Pokequiz.Dex
 
-  def display_name(), do:  "Which Pokemon have these types?"
+  def display_name(), do: gettext("Which Pokemon have these types?")
   def value_handle(), do: "type_combination"
   
 
