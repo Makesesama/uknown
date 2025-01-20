@@ -32,7 +32,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
           </div>
         </.modal>
 
-        <button :if={@player}  phx-click={show_modal("confirm-modal")} class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
+        <button :if={@player}  phx-click={show_modal("confirm-modal")} class="absolute bottom-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Next</button>
 
 
         <p class="absolute origin-center -rotate-12 text-4xl font-bold text-yellow-400 right-[20%] top-[35%]" :if={@quiz.finished}>{@quiz.pokemon.name}</p>
