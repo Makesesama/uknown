@@ -19,7 +19,7 @@
       lexical,
       npmlock2nix,
       mix2nix,
-    }:
+    }@inputs:
     let
       supportedSystems = [
         "x86_64-linux"
@@ -102,5 +102,9 @@
             };
         }
       );
+      nixosModules = {
+        uknown = import ./nix/module.nix inputs;
+      };
     };
+
 }
