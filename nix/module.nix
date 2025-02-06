@@ -20,6 +20,10 @@ in
       type = lib.types.str;
       default = "uknown";
     };
+    group = lib.mkOption {
+      type = lib.types.str;
+      default = "uknown";
+    };
     db.path = lib.mkOption {
       type = lib.types.path;
     };
@@ -54,5 +58,11 @@ in
       };
 
     };
+
+    users.users.uknown = lib.mkIf (cfg.user == "uknown") {
+      isSystemUser = true;
+      group = cfg.group;
+    };
+    users.groups.uknown = lib.mkIf (cfg.group == "uknown") { };
   };
 }
