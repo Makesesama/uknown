@@ -41,7 +41,7 @@ in
       description = "Uknown Pokequiz";
       wantedBy = [ "multi-user.target" ];
       environment = {
-        PHX_HOST = cfg.db.host;
+        PHX_HOST = cfg.host;
         PHX_SERVER = "true";
         SECRET_KEY_BASE = cfg.super-secret-key;
         DATABASE_PATH = cfg.db.path;
