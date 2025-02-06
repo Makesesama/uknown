@@ -39,6 +39,24 @@
         "type": "github"
       }
     },
+    "mix2nix": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1738851559,
+        "narHash": "sha256-wZ5KMH1dOA1Y/VA4XglNyyU0subLswWtG6hkJqjGOxo=",
+        "owner": "Makesesama",
+        "repo": "mix2nix",
+        "rev": "f068d89f34c5dbd9c4d9506da55e14e91b827736",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Makesesama",
+        "repo": "mix2nix",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1719931832,
@@ -67,6 +85,21 @@
     },
     "nixpkgs_2": {
       "locked": {
+        "lastModified": 1724316499,
+        "narHash": "sha256-Qb9MhKBUTCfWg/wqqaxt89Xfi6qTD3XpTzQ9eXi3JmE=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "797f7dc49e0bc7fab4b57c021cdf68f595e47841",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "ref": "nixos-24.05",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs_3": {
+      "locked": {
         "lastModified": 1736200483,
         "narHash": "sha256-JO+lFN2HsCwSLMUWXHeOad6QUxOuwe9UOAF/iSl1J4I=",
         "owner": "NixOS",
@@ -81,10 +114,28 @@
         "type": "github"
       }
     },
+    "npmlock2nix": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1673447413,
+        "narHash": "sha256-sJM82Sj8yfQYs9axEmGZ9Evzdv/kDcI9sddqJ45frrU=",
+        "owner": "nix-community",
+        "repo": "npmlock2nix",
+        "rev": "9197bbf397d76059a76310523d45df10d2e4ca81",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "npmlock2nix",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "lexical": "lexical",
-        "nixpkgs": "nixpkgs_2"
+        "mix2nix": "mix2nix",
+        "nixpkgs": "nixpkgs_3",
+        "npmlock2nix": "npmlock2nix"
       }
     },
     "systems": {

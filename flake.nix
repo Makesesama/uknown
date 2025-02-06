@@ -4,6 +4,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     lexical.url = "github:lexical-lsp/lexical/support_1_18";
+
+    mix2nix.url = "github:Makesesama/mix2nix";
+    npmlock2nix = {
+      url = "github:nix-community/npmlock2nix";
+      flake = false;
+    };
   };
 
   outputs =
@@ -11,6 +17,8 @@
       self,
       nixpkgs,
       lexical,
+      npmlock2nix,
+      mix2nix,
     }:
     let
       supportedSystems = [
@@ -43,6 +51,14 @@
         );
     in
     {
+      packages = forAllSystems (
+        { pkgs }:
+        {
+          default = pkgs.callPackage ./nix/package.nix {
+            inherit npmlock2nix;
+          };
+        }
+      );
       devShells = forAllSystems (
         { pkgs }:
         {
@@ -65,7 +81,7 @@
                 [
                   elixir
                   hex
-                  mix2nix
+                  mix2nix.packages."x86_64-linux".default
 
                   lexical.packages."x86_64-linux".default
                 ]
