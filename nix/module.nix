@@ -8,6 +8,8 @@ inputs:
 with lib;
 let
   cfg = config.services.uknown;
+
+  stateDir = "/home/makussu/uknown";
 in
 {
   options.services.uknown = {
@@ -52,6 +54,7 @@ in
       };
       serviceConfig = {
         User = cfg.user;
+        StateDirectory = baseNameOf stateDir;
         ExecStart = "${cfg.package}/bin/server start";
         Restart = "on-failure";
         RestartSec = "5s";
