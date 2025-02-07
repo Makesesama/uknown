@@ -5,7 +5,9 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     lexical.url = "github:lexical-lsp/lexical/support_1_18";
 
+    # use fork of mix2nix because of https://github.com/ydlr/mix2nix/issues/3
     mix2nix.url = "github:Makesesama/mix2nix";
+
     npmlock2nix = {
       url = "github:nix-community/npmlock2nix";
       flake = false;
@@ -28,25 +30,12 @@
         "aarch64-darwin"
       ];
 
-      overlays = [
-        (
-          final: prev:
-          let
-            beamPkgs = final.beam.packagesWith final.beam.interpreters.erlang_27;
-          in
-          rec {
-            elixir = beamPkgs.elixir_1_18;
-            hex = beamPkgs.hex;
-          }
-        )
-      ];
-
       forAllSystems =
         function:
         nixpkgs.lib.genAttrs supportedSystems (
           system:
           function {
-            pkgs = import nixpkgs { inherit overlays system; };
+            pkgs = import nixpkgs { inherit system; };
           }
         );
     in
@@ -76,16 +65,12 @@
                 );
             in
             pkgs.mkShell {
-              packages =
-                with pkgs;
-                [
-                  elixir
-                  hex
-                  mix2nix.packages."x86_64-linux".default
+              inputsFrom = [ self.packages.${pkgs.system}.default ];
+              packages = [
+                mix2nix.packages.${pkgs.system}.default
 
-                  lexical.packages."x86_64-linux".default
-                ]
-                ++ opts;
+                lexical.packages.${pkgs.system}.default
+              ] ++ opts;
               shellHook = ''
                 # Set up `mix` to save dependencies to the local directory
                 mkdir -p .nix-mix
