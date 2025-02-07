@@ -5,8 +5,18 @@
         <label class="font-bold flex justify-center">
           {@quiz.pokemon_1.name}
         </label>
-        <button phx-click="pokemon_1" phx-target={@myself} class="border border-4 hover:border-mauve-400 text-white font-bold py-2 px-4 rounded rounded-lg">
-          <img class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300" width="400px" height="400px" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@quiz.pokemon_1.id}.png"} />
+        <button
+          phx-click="pokemon_1"
+          phx-target={@myself}
+          class="border border-4 hover:border-mauve-400 text-white font-bold py-2 px-4 rounded rounded-lg"
+        >
+          <img
+            class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300"
+            width="400px"
+            height="400px"
+            alt="Unkown Pokemon"
+            src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@quiz.pokemon_1.id}.png"}
+          />
         </button>
         <div class={["transition", "duration-200", @quiz.opacity, "h-1"]}>
           <label :if={@quiz.finished} class="font-bold flex justify-center">
@@ -19,8 +29,18 @@
           {@quiz.pokemon_2.name}
         </label>
 
-        <button phx-click="pokemon_2" phx-target={@myself} class="border border-4 hover:border-mauve-400 text-white font-bold py-2 px-4 rounded rounded-lg">
-          <img class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300" width="400px" height="400px" alt="Unkown Pokemon" src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@quiz.pokemon_2.id}.png"} />
+        <button
+          phx-click="pokemon_2"
+          phx-target={@myself}
+          class="border border-4 hover:border-mauve-400 text-white font-bold py-2 px-4 rounded rounded-lg"
+        >
+          <img
+            class="transition ease-in-out delay-50 hover:-translate-y-1 hover:scale-110 duration-300"
+            width="400px"
+            height="400px"
+            alt="Unkown Pokemon"
+            src={"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/#{@quiz.pokemon_2.id}.png"}
+          />
         </button>
         <div class={["transition", "duration-200", @quiz.opacity, "h-1"]}>
           <label :if={@quiz.finished} class="font-bold flex justify-center">
@@ -30,22 +50,35 @@
       </div>
     </div>
     <%= case @quiz.won do %>
-    <% nil -> %>
-    <% false -> %>
-    <div class={["transition", "duration-200", @quiz.opacity, "h-60"]}>
-      <div class="transition flex flex-col gap-8 justify-center items-center h-full">
-        <p class="font-extrabold text-4xl tracking-widest text-red-400">You Lost</p>
-        <button :if={@player} phx-click="new" phx-target={@myself} class="bg-blue-500 hover:bg-mauve-400 text-white font-bold py-2 px-4 rounded">Next</button>
-      </div>
-    </div>
-    <% true -> %>
-    <div class={["transition", "duration-200", @quiz.opacity, "h-60"]}>
-      <div class="transition flex flex-col gap-8 justify-center items-center h-full">
-        <p class="font-extrabold text-4xl tracking-widest text-lime-400">You Won</p>
-        <button :if={@player} phx-click="new" phx-target={@myself} class="bg-blue-500 hover:bg-mauve-400 text-white font-bold py-2 px-4 rounded">Next</button>
-      </div>
-    </div>
+      <% nil -> %>
+      <% false -> %>
+        <div class={["transition", "duration-200", @quiz.opacity, "h-60"]}>
+          <div class="transition flex flex-col gap-8 justify-center items-center h-full">
+            <p class="font-extrabold text-4xl tracking-widest text-red-400">You Lost</p>
+            <button
+              :if={@player}
+              phx-click="new"
+              phx-target={@myself}
+              class="bg-blue-500 hover:bg-mauve-400 text-white font-bold py-2 px-4 rounded"
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      <% true -> %>
+        <div class={["transition", "duration-200", @quiz.opacity, "h-60"]}>
+          <div class="transition flex flex-col gap-8 justify-center items-center h-full">
+            <p class="font-extrabold text-4xl tracking-widest text-lime-400">You Won</p>
+            <button
+              :if={@player}
+              phx-click="new"
+              phx-target={@myself}
+              class="bg-blue-500 hover:bg-mauve-400 text-white font-bold py-2 px-4 rounded"
+            >
+              Next
+            </button>
+          </div>
+        </div>
     <% end %>
-  
   </div>
 </div>

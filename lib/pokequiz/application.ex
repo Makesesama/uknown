@@ -11,8 +11,7 @@ defmodule Pokequiz.Application do
       PokequizWeb.Telemetry,
       Pokequiz.Repo,
       {Ecto.Migrator,
-        repos: Application.fetch_env!(:pokequiz, :ecto_repos),
-        skip: skip_migrations?()},
+       repos: Application.fetch_env!(:pokequiz, :ecto_repos), skip: skip_migrations?()},
       {DNSCluster, query: Application.get_env(:pokequiz, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Pokequiz.PubSub},
       # Start the Finch HTTP client for sending emails

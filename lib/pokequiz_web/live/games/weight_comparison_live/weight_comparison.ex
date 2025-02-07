@@ -6,16 +6,20 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
 
   alias Pokequiz.Dex
   import Pokequiz.Session.Helper
-  
+
   import PokequizWeb.CoreComponents
-     
+
   def display_name(), do: gettext("Who is heavier?")
   def value_handle(), do: "weight_comparison"
-   
 
   def handle_event("new", _, socket) do
     %{assigns: %{quiz: quiz, name: name}} = socket
-    pokemans = Dex.Pokemon.two_equal(Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations))
+
+    pokemans =
+      Dex.Pokemon.two_equal(
+        Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations)
+      )
+
     quiz =
       quiz
       |> Map.put(:pokemon_1, Dex.Pokemon.weight_calc(Enum.at(pokemans, 0), :weight))
@@ -25,13 +29,14 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
       |> Map.put(:won, false)
 
     push_quiz(name, quiz)
-    
+
     {:noreply, socket}
   end
 
-
   def handle_event("pokemon_1", _, socket) do
-    %{assigns: %{quiz: %{pokemon_1: pokemon_1, pokemon_2: pokemon_2}, name: name, player: player}} = socket
+    %{assigns: %{quiz: %{pokemon_1: pokemon_1, pokemon_2: pokemon_2}, name: name, player: player}} =
+      socket
+
     %{assigns: %{quiz: quiz}} = socket
 
     if !quiz.finished do
@@ -45,16 +50,23 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
 
       push_quiz(name, quiz)
 
-      player = if won do Pokequiz.Player.increase_score(player) else player end
+      player =
+        if won do
+          Pokequiz.Player.increase_score(player)
+        else
+          player
+        end
 
       push_player(name, player)
     end
-    
-    {:noreply, socket}  
+
+    {:noreply, socket}
   end
 
-  def handle_event("pokemon_2", _, socket) do  
-    %{assigns: %{quiz: %{pokemon_1: pokemon_1, pokemon_2: pokemon_2}, name: name, player: player}} = socket
+  def handle_event("pokemon_2", _, socket) do
+    %{assigns: %{quiz: %{pokemon_1: pokemon_1, pokemon_2: pokemon_2}, name: name, player: player}} =
+      socket
+
     %{assigns: %{quiz: quiz}} = socket
 
     if !quiz.finished do
@@ -66,15 +78,19 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
         |> Map.put(:finished, true)
         |> Map.put(:won, won)
 
-
       game_end?(name, quiz, player)
     end
-    
-    {:noreply, socket}  
+
+    {:noreply, socket}
   end
 
   def init(socket) do
-    pokemans = Dex.Pokemon.two_equal(Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.game.settings.generations))
+    pokemans =
+      Dex.Pokemon.two_equal(
+        Pokequiz.Session.Settings.generations_to_blacklist(
+          socket.assigns.game.settings.generations
+        )
+      )
 
     %{}
     |> Map.put(:module, __MODULE__)
@@ -84,5 +100,4 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
     |> Map.put(:finished, false)
     |> Map.put(:won, false)
   end
-
 end

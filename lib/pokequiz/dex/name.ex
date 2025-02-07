@@ -5,7 +5,7 @@ defmodule Pokequiz.Dex.Name do
   alias Pokequiz.Repo
 
   import Ecto.Query, only: [from: 2]
-  
+
   schema "pokemon_v2_pokemonspeciesname" do
     field :name, :string
     field :genus, :string
@@ -22,8 +22,11 @@ defmodule Pokequiz.Dex.Name do
   end
 
   def get_like(search) do
-    query = from p in Pokequiz.Dex.Name, where: like(p.name, ^"%#{search}%"), where: p.language_id in [6, 9]
+    query =
+      from p in Pokequiz.Dex.Name,
+        where: like(p.name, ^"%#{search}%"),
+        where: p.language_id in [6, 9]
+
     Repo.all(query)
   end
-
 end

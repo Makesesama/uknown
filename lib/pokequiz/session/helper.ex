@@ -16,14 +16,20 @@ defmodule Pokequiz.Session.Helper do
   end
 
   def game_end(name, quiz, player) do
-    player = if quiz.won do Pokequiz.Player.increase_score(player) else player end
+    player =
+      if quiz.won do
+        Pokequiz.Player.increase_score(player)
+      else
+        player
+      end
 
     push_quiz(name, quiz)
     |> push_player(player)
   end
 
   def game_end?(name, quiz, player) do
-    if quiz.finished do game_end(name, quiz, player) end
+    if quiz.finished do
+      game_end(name, quiz, player)
+    end
   end
-  
 end

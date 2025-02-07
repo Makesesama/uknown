@@ -118,8 +118,9 @@ defmodule PokequizWeb.CoreComponents do
         "fixed top-2 right-2 mr-2 w-80 sm:w-96 z-50 rounded-lg p-3 ring-1",
         @kind == :info && "bg-mauve-100 text-mauve-800 ring-mauve-500 fill-cyan-900",
         @kind == :good && "bg-asparagus-100 text-asparagus-800 ring-asparagus-500 fill-cyan-900",
-        @kind == :error && "bg-indian_red-100 text-indian_red-900 shadow-md ring-indian_red-500 fill-indian_red-900"
-        ]}
+        @kind == :error &&
+          "bg-indian_red-100 text-indian_red-900 shadow-md ring-indian_red-500 fill-indian_red-900"
+      ]}
       {@rest}
     >
       <p :if={@title} class="flex items-center gap-1.5 text-sm font-semibold leading-6">
@@ -235,7 +236,7 @@ defmodule PokequizWeb.CoreComponents do
         @class,
         "phx-submit-loading:opacity-75 rounded-lg hover:bg-zinc-700 py-2 px-3",
         "text-sm font-semibold leading-6 text-white active:text-white/80"
-        ]}
+      ]}
       {@rest}
     >
       {render_slot(@inner_block)}

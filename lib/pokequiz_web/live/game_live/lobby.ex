@@ -3,7 +3,7 @@ defmodule PokequizWeb.GameLive.Lobby do
 
   import Pokequiz.Session.Helper
   import PokequizWeb.CoreComponents
-  
+
   alias Pokequiz.Session
 
   def mount(_params, session, socket) do
@@ -18,19 +18,19 @@ defmodule PokequizWeb.GameLive.Lobby do
       socket
       |> assign_game(name)
       |> assign_player()
-    
+
     {:noreply, socket}
   end
-  
+
   def handle_params(_params, _uri, socket) do
     name =
       ?a..?z
       |> Enum.take_random(6)
       |> List.to_string()
-  
+
     {:ok, _pid} =
       DynamicSupervisor.start_child(Pokequiz.SessionSupervisor, {Session, name: via_tuple(name)})
-  
+
     {:noreply,
      push_patch(
        socket,
@@ -41,13 +41,18 @@ defmodule PokequizWeb.GameLive.Lobby do
   @doc """
   Adds yourself to the player array and notifies all other players, that there is a new update.
   """
-  def handle_event("add_player", %{"name" => player_name}, %{assigns: %{name: name, user_cookie: user_cookie}} = socket) do
+  def handle_event(
+        "add_player",
+        %{"name" => player_name},
+        %{assigns: %{name: name, user_cookie: user_cookie}} = socket
+      ) do
     player = %Pokequiz.Player{name: player_name, session_cookie: user_cookie}
+
     socket =
       socket
       |> assign(player: player)
       |> put_flash(:info, "Joined the game as #{player.name}")
-    
+
     :ok = GenServer.cast(via_tuple(name), {:add_player, player})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     {:noreply, socket}
@@ -55,10 +60,11 @@ defmodule PokequizWeb.GameLive.Lobby do
 
   def handle_event("ready_player", _, %{assigns: %{name: name, player: player}} = socket) do
     player = %Pokequiz.Player{player | ready: !player.ready}
+
     socket =
       socket
       |> assign(player: player)
-    
+
     :ok = GenServer.cast(via_tuple(name), {:ready_player, player})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     {:noreply, socket}
@@ -77,13 +83,14 @@ defmodule PokequizWeb.GameLive.Lobby do
   end
 
   def handle_event("select_quiz", %{"value" => quiz}, %{assigns: %{name: name}} = socket) do
-    quiz_module = case quiz do
-      "whois" -> PokequizWeb.Games.WhoisLive.Show.init(socket)
-      "weight_comparison" -> PokequizWeb.Games.WeightComparisonLive.Show.init(socket)
-      "pokemon_for_move" -> PokequizWeb.Games.PokemonForMoveLive.Show.init(socket)
-      "type_combination" -> PokequizWeb.Games.TypeCombinationLive.Show.init(socket)
-    end
-    
+    quiz_module =
+      case quiz do
+        "whois" -> PokequizWeb.Games.WhoisLive.Show.init(socket)
+        "weight_comparison" -> PokequizWeb.Games.WeightComparisonLive.Show.init(socket)
+        "pokemon_for_move" -> PokequizWeb.Games.PokemonForMoveLive.Show.init(socket)
+        "type_combination" -> PokequizWeb.Games.TypeCombinationLive.Show.init(socket)
+      end
+
     :ok = GenServer.cast(via_tuple(name), {:select_quiz, quiz_module})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     {:noreply, socket}
@@ -95,11 +102,37 @@ defmodule PokequizWeb.GameLive.Lobby do
     {:noreply, socket}
   end
 
-  def handle_event("generation_filter", %{"0" => zero, "1" => one, "2" => two, "3" => three, "4" => four, "5" => five, "6" => six, "7" => seven, "8" => eight, "friendly" => friendly}, %{assigns: %{name: name}} = socket) do
+  def handle_event(
+        "generation_filter",
+        %{
+          "0" => zero,
+          "1" => one,
+          "2" => two,
+          "3" => three,
+          "4" => four,
+          "5" => five,
+          "6" => six,
+          "7" => seven,
+          "8" => eight,
+          "friendly" => friendly
+        },
+        %{assigns: %{name: name}} = socket
+      ) do
     settings = socket.assigns.game.settings
-    generations = [one: convert_bool(zero), two: convert_bool(one), three: convert_bool(two), four: convert_bool(three), five: convert_bool(four), six: convert_bool(five), seven: convert_bool(six), eight: convert_bool(seven), nine: convert_bool(eight)]
-    
-    settings =  %{settings | generations: generations, friendly: convert_bool(friendly)}
+
+    generations = [
+      one: convert_bool(zero),
+      two: convert_bool(one),
+      three: convert_bool(two),
+      four: convert_bool(three),
+      five: convert_bool(four),
+      six: convert_bool(five),
+      seven: convert_bool(six),
+      eight: convert_bool(seven),
+      nine: convert_bool(eight)
+    ]
+
+    settings = %{settings | generations: generations, friendly: convert_bool(friendly)}
     :ok = GenServer.cast(via_tuple(name), {:update_settings, settings})
     :ok = Phoenix.PubSub.broadcast(Pokequiz.PubSub, name, :update)
     {:noreply, socket}
@@ -114,13 +147,13 @@ defmodule PokequizWeb.GameLive.Lobby do
 
     {:noreply, socket}
   end
-  
+
   defp assign_game(socket, name) do
     socket
     |> assign(name: name)
     |> assign_game()
   end
-  
+
   defp assign_game(%{assigns: %{name: name}} = socket) do
     game = GenServer.call(via_tuple(name), :session)
     assign(socket, game: game)

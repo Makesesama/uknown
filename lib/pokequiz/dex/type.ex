@@ -3,12 +3,12 @@ defmodule Pokequiz.Dex.Type do
   import Ecto.Changeset
 
   alias Pokequiz.Repo
-  
+
   alias __MODULE__
   alias Pokequiz.Dex.Pokemon
 
   import Ecto.Query, only: [from: 2]
-  
+
   schema "pokemon_v2_type" do
     field :name, :string
 
@@ -27,17 +27,16 @@ defmodule Pokequiz.Dex.Type do
     |> Repo.preload(:types)
     |> Enum.filter(fn x -> Enum.count(x.types) > 1 end)
     |> Enum.random()
-    |> Map.get(:types)    
+    |> Map.get(:types)
   end
 
   def random() do
     Repo.all(Type)
-    |> Enum.random
+    |> Enum.random()
   end
-  
+
   def get_random_kombo() do
     types = two_random_types()
-
 
     first_type_pokemon =
       hd(types)
@@ -53,7 +52,7 @@ defmodule Pokequiz.Dex.Type do
 
     pokemon =
       first_type_pokemon
-      |> Enum.filter(fn x -> Enum.member?(x.types, hd Enum.reverse(types)) end)
+      |> Enum.filter(fn x -> Enum.member?(x.types, hd(Enum.reverse(types))) end)
 
     %{pokemon: pokemon, types: types_string}
   end

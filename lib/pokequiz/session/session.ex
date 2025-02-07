@@ -1,39 +1,31 @@
 defmodule Pokequiz.Session do
-
   alias __MODULE__
 
-  defstruct [
-    players: [],
-    state: :lobby,
-    quiz: %{module: nil, finished: false},
-    settings: %Pokequiz.Session.Settings{},
-    rounds: [],
-    max_rounds: 10,
-    current_round: 1
-  ]
-  
+  defstruct players: [],
+            state: :lobby,
+            quiz: %{module: nil, finished: false},
+            settings: %Pokequiz.Session.Settings{},
+            rounds: [],
+            max_rounds: 10,
+            current_round: 1
+
   use GenServer
 
   @timeout 1_800_000
- 
+
   def start_link(options) do
     GenServer.start_link(__MODULE__, %Session{}, options)
   end
- 
+
   @impl true
   def init(session) do
     {:ok, session, @timeout}
   end
- 
+
   @impl true
   def handle_call(:session, _from, session) do
     {:reply, session, session, @timeout}
   end
- 
-  # @impl true
-  # def handle_cast({:place, position}, game) do
-  #   {:noreply, Game.place(game, position)}
-  # end
 
   @impl true
   def handle_cast({:add_player, player}, session) do
@@ -70,6 +62,7 @@ defmodule Pokequiz.Session do
       session
       |> Session.change_state(:game)
       |> Session.update_quiz(quiz)
+
     {:noreply, session, @timeout}
   end
 
@@ -83,15 +76,17 @@ defmodule Pokequiz.Session do
 
   def add_player(session, player) do
     players = session.players ++ [player]
-    
+
     session
     |> Map.put(:players, players)
     |> Map.put(:rounds, Session.Round.generate_rounds(players, session.max_rounds))
   end
 
   def change_player(session, player) do
-    players = Enum.map(session.players, fn x ->
-      if x.name == player.name, do: player, else: x end)
+    players =
+      Enum.map(session.players, fn x ->
+        if x.name == player.name, do: player, else: x
+      end)
 
     %{session | players: players}
   end
@@ -112,5 +107,4 @@ defmodule Pokequiz.Session do
   def update_settings(session, settings) do
     %{session | settings: settings}
   end
-  
 end

@@ -28,12 +28,10 @@ defmodule Pokequiz.Dex.Move do
 
   def random() do
     Repo.all(Move)
-    |> Enum.random
+    |> Enum.random()
     |> Repo.preload(:pokemon)
   end
 
   def pokemon(move_id) do
-
   end
-  
 end

@@ -1,5 +1,4 @@
 <div :if={@game.state == :lobby} class="flex justify-center">
-
   <div class="h-screen flex items-center justify-center">
     <div class="container h-[80%]">
       <div>
@@ -8,38 +7,80 @@
           <p class="font-mono text-mauve">{@name}</p>
         </div>
 
-        <form :if={!@player} class="bottom-4 left-56  p-2 rounded flex justify-center gap-2" phx-submit="add_player">
-          <label>{gettext("Your Name")}:<.input class={["rounded", "border-2"]} id="msg" type="text" name="name" value=""/></label>
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">{gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" /></button>
+        <form
+          :if={!@player}
+          class="bottom-4 left-56  p-2 rounded flex justify-center gap-2"
+          phx-submit="add_player"
+        >
+          <label>
+            {gettext("Your Name")}:<.input
+              class={["rounded", "border-2"]}
+              id="msg"
+              type="text"
+              name="name"
+              value=""
+            />
+          </label>
+          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            {gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" />
+          </button>
         </form>
-        
+
         <div class="flex gap-2 px-10 p-2 justify-between">
           <div>
-            <.button :if={@player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="ready_player">{gettext("Ready")}</.button>
+            <.button
+              :if={@player}
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              phx-click="ready_player"
+            >
+              {gettext("Ready")}
+            </.button>
           </div>
           <div>
-            <.button :if={Pokequiz.Player.all_ready(@game.players) && @player} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="start_game">Start</.button>
+            <.button
+              :if={Pokequiz.Player.all_ready(@game.players) && @player}
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              phx-click="start_game"
+            >
+              Start
+            </.button>
           </div>
         </div>
-        
+
         <h2 class="text-xl font-semibold pt-20 pb-4">{gettext("Gamers")}:</h2>
 
         <div class="flex justify-evenly gap-2 p-2">
-        <Pokequiz.Components.Player.card
-          :for={player <- @game.players}
-          player={player}
-          id={player.name}
-          current_player={if @player do player.name == @player.name else false end}
-          friendly={@game.settings.friendly}
-        />
+          <Pokequiz.Components.Player.card
+            :for={player <- @game.players}
+            player={player}
+            id={player.name}
+            current_player={
+              if @player do
+                player.name == @player.name
+              else
+                false
+              end
+            }
+            friendly={@game.settings.friendly}
+          />
         </div>
         <.modal id="homescreen-modal">
           <div class="flex justify-center">
-            <.button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click={JS.navigate("/")}>Confirm</.button>
+            <.button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              phx-click={JS.navigate("/")}
+            >
+              Confirm
+            </.button>
           </div>
         </.modal>
         <div class="fixed bottom-2 flex justify-center">
-          <.button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click={show_modal("homescreen-modal")}>{gettext("Go Back to Homescreen")}</.button>
+          <.button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            phx-click={show_modal("homescreen-modal")}
+          >
+            {gettext("Go Back to Homescreen")}
+          </.button>
         </div>
       </div>
     </div>
@@ -51,12 +92,26 @@
     <form class="bottom-4 left-56 p-2 rounded gap-2" phx-change="generation_filter">
       <div class="grid grid-cols-1">
         <%= for number <- 0..8 do %>
-        <div class="flex justify-between">
-          <.label class="flex">Gen {number + 1}</.label><.input class={["rounded", "border-2"]} id="msg" type="checkbox" name={number} checked={elem(Enum.at(@game.settings.generations, number), 1)}/>
-        </div>
+          <div class="flex justify-between">
+            <.label class="flex">Gen {number + 1}</.label>
+            <.input
+              class={["rounded", "border-2"]}
+              id="msg"
+              type="checkbox"
+              name={number}
+              checked={elem(Enum.at(@game.settings.generations, number), 1)}
+            />
+          </div>
         <% end %>
         <div class="flex justify-between">
-          <.label class="flex">Friendly</.label><.input class={["rounded", "border-2"]} id="msg" type="checkbox" name="friendly" checked={@game.settings.friendly}/>
+          <.label class="flex">Friendly</.label>
+          <.input
+            class={["rounded", "border-2"]}
+            id="msg"
+            type="checkbox"
+            name="friendly"
+            checked={@game.settings.friendly}
+          />
         </div>
       </div>
     </form>
@@ -64,14 +119,9 @@
 </.modal>
 
 <div :if={@game.state == :select}>
-    <.live_component
-    module={PokequizWeb.GameLive.Lobby.SelectComponent}
-    game={@game}
-    id={"1"}
-  />
+  <.live_component module={PokequizWeb.GameLive.Lobby.SelectComponent} game={@game} id="1" />
 </div>
 
-       
 <div :if={@game.state == :game}>
   <.live_component
     module={@game.quiz.module}
@@ -82,21 +132,37 @@
     settings={@game.settings}
     datalist={[]}
     input_error={[]}
-    id={"2"}
+    id="2"
   />
-  <button :if={@game.quiz.finished} class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" phx-click="back_to_lobby">Back to Lobby</button>
+  <button
+    :if={@game.quiz.finished}
+    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    phx-click="back_to_lobby"
+  >
+    Back to Lobby
+  </button>
 
   <div class="fixed inset-x-0 bottom-2 flex justify-evenly gap-2 p-2">
     <Pokequiz.Components.Player.card
       :for={player <- @game.players}
       player={player}
       id={player.name}
-      current_player={if @player do player.name == @player.name else false end}
+      current_player={
+        if @player do
+          player.name == @player.name
+        else
+          false
+        end
+      }
       friendly={@game.settings.friendly}
     />
   </div>
-
-
 </div>
 
-<.button class="absolute top-20 right-12" :if={@player != nil and (@game.state == :lobby or @game.quiz.finished)} phx-click={show_modal("settings-modal")}>Settings</.button>
+<.button
+  :if={@player != nil and (@game.state == :lobby or @game.quiz.finished)}
+  class="absolute top-20 right-12"
+  phx-click={show_modal("settings-modal")}
+>
+  Settings
+</.button>

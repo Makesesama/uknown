@@ -7,6 +7,8 @@
 
     # use fork of mix2nix because of https://github.com/ydlr/mix2nix/issues/3
     mix2nix.url = "github:Makesesama/mix2nix";
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
   outputs =
@@ -15,6 +17,7 @@
       nixpkgs,
       lexical,
       mix2nix,
+      treefmt-nix,
     }@inputs:
     let
       supportedSystems = [
@@ -24,14 +27,30 @@
         "aarch64-darwin"
       ];
 
+      overlays = [
+        (
+          final: prev:
+          let
+            beamPkgs = final.beam.packagesWith final.beam.interpreters.erlang_27;
+          in
+          rec {
+            beamPackages = beamPkgs;
+            elixir = beamPkgs.elixir_1_18;
+            hex = beamPkgs.hex;
+          }
+        )
+      ];
+
       forAllSystems =
         function:
         nixpkgs.lib.genAttrs supportedSystems (
           system:
           function {
-            pkgs = import nixpkgs { inherit system; };
+            pkgs = import nixpkgs { inherit overlays system; };
           }
         );
+
+      treefmtEval = forAllSystems ({ pkgs }: treefmt-nix.lib.evalModule pkgs ./nix/treefmt.nix);
     in
     {
       packages = forAllSystems (
@@ -80,6 +99,7 @@
             };
         }
       );
+      formatter = forAllSystems ({ pkgs }: treefmtEval.${pkgs.system}.config.build.wrapper);
       nixosModules = {
         uknown = import ./nix/module.nix inputs;
       };

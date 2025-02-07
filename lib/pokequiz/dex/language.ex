@@ -5,7 +5,7 @@ defmodule Pokequiz.Dex.Language do
   alias Pokequiz.Repo
 
   import Ecto.Query, only: [from: 2]
-  
+
   schema "pokemon_v2_language" do
     field :name, :string
 
@@ -18,5 +18,4 @@ defmodule Pokequiz.Dex.Language do
     |> cast(attrs, [:name])
     |> validate_required([:name])
   end
-  
 end

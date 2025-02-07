@@ -1,8 +1,7 @@
 defmodule Pokequiz.Player do
-
   alias __MODULE__
 
-  defstruct [:name, :session_cookie, score: 0, ready: false, vote: false]
+  defstruct [:name, :session_cookie, score: 0, ready: false, vote: false, master: false]
 
   def restore_from_cookie(players, cookie) do
     Enum.find(players, fn x -> x.session_cookie == cookie end)

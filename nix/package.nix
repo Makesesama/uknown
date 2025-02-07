@@ -16,15 +16,12 @@ let
     }
     .${pkgs.system};
 
-  erl = pkgs.beam.interpreters.erlang_27;
-  beamPackages = pkgs.beam.packagesWith erl;
-  elixir = beamPackages.elixir_1_18;
-
   mixNixDeps = import ./deps.nix {
-    inherit beamPackages lib;
+    inherit lib;
+    beamPackages = pkgs.beamPackages;
   };
 in
-beamPackages.mixRelease {
+pkgs.beamPackages.mixRelease {
   inherit src version mixNixDeps;
   pname = "uknown";
   removeCookie = false;
@@ -36,7 +33,4 @@ beamPackages.mixRelease {
     mix do deps.loadpaths --no-deps-check, tailwind pokequiz --minify + esbuild pokequiz --minify
   '';
 
-  passthru = {
-    inherit elixir;
-  };
 }
