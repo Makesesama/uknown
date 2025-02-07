@@ -9,6 +9,7 @@
     mix2nix.url = "github:Makesesama/mix2nix";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
+    pre-commit-hooks.url = "github:cachix/git-hooks.nix";
   };
 
   outputs =
@@ -18,6 +19,7 @@
       lexical,
       mix2nix,
       treefmt-nix,
+      pre-commit-hooks,
     }@inputs:
     let
       supportedSystems = [
@@ -60,6 +62,14 @@
           };
         }
       );
+      checks = forAllSystems (system: {
+        pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            treefmt.enable = true;
+          };
+        };
+      });
       devShells = forAllSystems (
         { pkgs }:
         {
@@ -100,6 +110,7 @@
         }
       );
       formatter = forAllSystems ({ pkgs }: treefmtEval.${pkgs.system}.config.build.wrapper);
+
       nixosModules = {
         uknown = import ./nix/module.nix inputs;
       };

@@ -45,3 +45,5 @@ npm-debug.log
 /.nix-hex
 /.elixir-tools
 /result
+
+/.pre-commit-config.yaml
