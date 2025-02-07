@@ -1,7 +1,6 @@
 {
   pkgs,
   lib,
-  npmlock2nix,
 }:
 let
   version = "0.1.1";

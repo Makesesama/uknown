@@ -7,11 +7,6 @@
 
     # use fork of mix2nix because of https://github.com/ydlr/mix2nix/issues/3
     mix2nix.url = "github:Makesesama/mix2nix";
-
-    npmlock2nix = {
-      url = "github:nix-community/npmlock2nix";
-      flake = false;
-    };
   };
 
   outputs =
@@ -19,7 +14,6 @@
       self,
       nixpkgs,
       lexical,
-      npmlock2nix,
       mix2nix,
     }@inputs:
     let
@@ -44,7 +38,6 @@
         { pkgs }:
         {
           default = pkgs.callPackage ./nix/package.nix {
-            inherit npmlock2nix;
           };
         }
       );
