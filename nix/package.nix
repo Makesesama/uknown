@@ -25,9 +25,8 @@ let
   };
 in
 beamPackages.mixRelease {
-  inherit src mixNixDeps;
+  inherit src version mixNixDeps;
   pname = "uknown";
-  version = "1.0";
   removeCookie = false;
 
   postBuild = ''
