@@ -9,7 +9,7 @@ with lib;
 let
   cfg = config.services.uknown;
 
-  stateDir = "/home/makussu/uknown";
+  stateDir = "/var/lib/uknown";
 in
 {
   options.services.uknown = {
@@ -28,6 +28,7 @@ in
     };
     db.path = lib.mkOption {
       type = lib.types.path;
+      default = "${stateDir}/db.sqlite3";
     };
     super-secret-key = lib.mkOption {
       type = lib.types.str;
@@ -54,7 +55,7 @@ in
       };
       serviceConfig = {
         User = cfg.user;
-        StateDirectory = baseNameOf stateDir;
+        StateDirectory = stateDir;
         ExecStart = "${cfg.package}/bin/server start";
         Restart = "on-failure";
         RestartSec = "5s";
