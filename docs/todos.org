@@ -1,0 +1,3 @@
+* TODO Implement generation filter
+- type combination
+- move
