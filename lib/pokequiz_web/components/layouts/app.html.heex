@@ -1,4 +1,4 @@
-<header class="px-4 sm:px-6 lg:px-8 z-50 dark:bg-gunmetal-300">
+<header class="h-[6vh] px-4 sm:px-6 lg:px-8 z-50 dark:bg-gunmetal-300">
   <div class="flex items-center justify-between border-b border-gunmetal-200 py-3 text-sm z-50">
     <div class="flex items-center gap-4 z-50">
       <a href="/">
@@ -8,7 +8,7 @@
           class="z-50"
         />
       </a>
-      <p class="bg-mauve/5 text-mauve rounded-full px-2 font-medium leading-6 z-50">
+      <p class="bg-mauve/5 text-brand rounded-full px-2 font-medium leading-6 z-50">
         Uknown
       </p>
     </div>
@@ -16,16 +16,17 @@
       <!-- <a href="/quiz" class="hover:text-zinc-700"> -->
       <!--   quiz -->
       <!-- </a> -->
+      <DarkMode.button />
       <a href="https://github.com/Makesesama/uknown" class="hover:text-mauve z-50">
         GitHub
       </a>
-      <a href="/" class="rounded-lg bg-mauve-100 px-2 py-1 hover:bg-zinc-200/80">
+      <a href="/" class="rounded-lg bg-mauve-600 dark:bg-mauve-100 px-2 py-1 hover:bg-zinc-200/80">
         {gettext("Get Started")} <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
   </div>
 </header>
-<main class="">
+<main class="h-[94vh]">
   <div class="mx-auto">
     <.flash_group flash={@flash} />
     {@inner_content}

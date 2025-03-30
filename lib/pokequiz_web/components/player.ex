@@ -7,7 +7,7 @@ defmodule Pokequiz.Components.Player do
   def card(assigns) do
     ~H"""
     <div class={[
-      "w-48 h-40 dark:bg-gunmetal grid border border-2 rounded rounded-lg max-w-sm p-6",
+      "w-48 h-40 bg-zinc-100 dark:bg-gunmetal grid border border-2 rounded rounded-lg max-w-sm p-6",
       if @current_player do
         "border-indian_red-500"
       else

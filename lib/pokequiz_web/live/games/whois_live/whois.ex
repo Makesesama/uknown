@@ -15,11 +15,11 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
   def render(assigns) do
     ~H"""
     <div>
-      <div class="relative">
+      <div class="relative flex justify-center">
         <img
-          class="2xl:w-fit"
-          width="100%"
-          height="100%"
+          class="2xl:w-fit h-[90vh]"
+          width="90%"
+          height="90%"
           alt="Unkown Pokemon"
           src="/images/whois.png"
         />

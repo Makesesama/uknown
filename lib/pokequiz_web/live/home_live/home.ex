@@ -64,7 +64,7 @@ defmodule PokequizWeb.HomeLive do
           </header>
         </div>
       </div>
-      <div class="max-h-100% overflow-hidden w-full h-48 object-cover sm:h-screen sm:w-4/12 bg-gunmetal-400">
+      <div class="max-h-100% overflow-hidden w-full h-48 object-cover sm:h-screen sm:w-4/12 bg-zinc-100 dark:bg-gunmetal-400">
         <div class="w-full flex justify-center">
           <div class="max-w-40 h-full">
             <div class="h-full w-40 flex flex-col [mask-image:_linear-gradient(to_top,transparent_0,_black_128px,_black_calc(100%-200px),transparent_100%)]">
@@ -98,6 +98,7 @@ defmodule PokequizWeb.HomeLive do
     socket =
       socket
       |> assign(:pokemon, pokemon)
+      |> assign(:theme, "dark")
 
     {:ok, socket}
   end

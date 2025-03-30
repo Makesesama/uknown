@@ -14,6 +14,8 @@
 //
 //     import "some-package"
 //
+import darkModeHook from "../vendor/dark_mode"
+
 let Hooks = {}
 Hooks.SetSession = {
   DEBOUNCE_MS: 200,
@@ -32,7 +34,9 @@ Hooks.SetSession = {
       }, this.DEBOUNCE_MS)
     })
   },
- }
+}
+
+Hooks.DarkThemeToggle = darkModeHook
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html"

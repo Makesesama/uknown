@@ -4,7 +4,7 @@
       <div>
         <div class="flex p-4 w-64 justify-between items-center text-3xl">
           <h1 class="whitespace-nowrap">Lobby</h1>
-          <p class="font-mono text-mauve">{@name}</p>
+          <p class="font-mono text-brand">{@name}</p>
         </div>
 
         <form
@@ -142,7 +142,7 @@
     Back to Lobby
   </button>
 
-  <div class="fixed inset-x-0 bottom-2 flex justify-evenly gap-2 p-2">
+  <div class="fixed top-44 flex justify-evenly gap-2 p-2">
     <Pokequiz.Components.Player.card
       :for={player <- @game.players}
       player={player}
