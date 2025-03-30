@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    lexical.url = "github:lexical-lsp/lexical/support_1_18";
+    lexical.url = "github:lexical-lsp/lexical";
 
     # use fork of mix2nix because of https://github.com/ydlr/mix2nix/issues/3
     mix2nix.url = "github:Makesesama/mix2nix";
@@ -62,14 +62,16 @@
           };
         }
       );
-      checks = forAllSystems (system: {
-        pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            treefmt.enable = true;
+      checks = forAllSystems (
+        { pkgs }:
+        {
+          pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.system}.run {
+            src = ./.;
+            hooks = {
+            };
           };
-        };
-      });
+        }
+      );
       devShells = forAllSystems (
         { pkgs }:
         {
