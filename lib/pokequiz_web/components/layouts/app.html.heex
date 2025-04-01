@@ -1,5 +1,5 @@
-<header class="h-[6vh] px-4 sm:px-6 lg:px-8 z-50 dark:bg-gunmetal-300 border-b border-gray-500/5 dark:border-white/10">
-  <div class="flex items-center justify-between py-3 text-sm z-50">
+<header class="h-[70px] px-4 sm:px-6 lg:px-8 z-50 dark:bg-gunmetal-300 border-b border-gray-500/20 dark:border-white/10">
+  <div class="flex items-center justify-between py-3 text-sm">
     <div class="flex items-center gap-4 z-50">
       <a href="/">
         <img
@@ -26,7 +26,7 @@
     </div>
   </div>
 </header>
-<main class="h-[94vh]">
+<main class="h-[calc(100vh-70px)] overflow-auto">
   <div class="mx-auto">
     <.flash_group flash={@flash} />
     {@inner_content}

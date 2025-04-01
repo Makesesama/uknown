@@ -3,7 +3,7 @@ defmodule PokequizWeb.GameLive.Lobby.SelectComponent do
 
   def render(assigns) do
     ~H"""
-    <div class="flex flex-col min-h-screen justify-center items-center">
+    <div class="flex flex-col justify-center items-center pt-32">
       <h1 class="font-bold text-xl">Pick a game:</h1>
       <div class="flex flex-col gap-2">
         <button

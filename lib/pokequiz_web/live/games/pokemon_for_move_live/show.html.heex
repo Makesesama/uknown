@@ -1,4 +1,4 @@
-<div class="h-screen flex items-center justify-center">
+<div class="flex items-center justify-center overflow-y-auto">
   <div class="container h-[100%]">
     <h1 class="text-xl font-bold">Pokemon Move Quiz</h1>
     <div class="mx-4">
@@ -37,7 +37,7 @@
           </button>
         </form>
 
-        <div>
+        <div class="overflow-scroll overscroll-contain">
           <h2 class="text-lg font-bold">Correct Picks: {@quiz.pick}</h2>
           <div class="flex flex-wrap gap-2 justify-center w-full items-center justify-items-center">
             <%= for pokemon <- @quiz.pokemon do %>
@@ -59,21 +59,23 @@
             <% end %>
           </div>
         </div>
-        <button
-          :if={@player}
-          phx-click="new"
-          phx-target={@myself}
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Next
-        </button>
-        <button
-          :if={@player}
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          phx-click="back_to_lobby"
-        >
-          Back to Lobby
-        </button>
+        <div class="fixed bottom-2">
+          <button
+            :if={@player}
+            phx-click="new"
+            phx-target={@myself}
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Next
+          </button>
+          <button
+            :if={@player}
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            phx-click="back_to_lobby"
+          >
+            Back to Lobby
+          </button>
+        </div>
       </div>
     </div>
   </div>
