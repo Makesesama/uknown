@@ -2,8 +2,7 @@
   description = "An Elixir development shell.";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    lexical.url = "github:lexical-lsp/lexical";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # use fork of mix2nix because of https://github.com/ydlr/mix2nix/issues/3
     mix2nix.url = "github:Makesesama/mix2nix";
@@ -16,7 +15,6 @@
     {
       self,
       nixpkgs,
-      lexical,
       mix2nix,
       treefmt-nix,
       pre-commit-hooks,
@@ -93,7 +91,7 @@
               packages = [
                 mix2nix.packages.${pkgs.system}.default
 
-                lexical.packages.${pkgs.system}.default
+                pkgs.lexical
               ] ++ opts;
               shellHook = ''
                 # Set up `mix` to save dependencies to the local directory
