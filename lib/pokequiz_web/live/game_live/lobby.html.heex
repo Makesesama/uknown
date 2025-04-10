@@ -21,7 +21,7 @@
               value=""
             />
           </label>
-          <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
             {gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" />
           </button>
         </form>
@@ -30,7 +30,7 @@
           <div>
             <.button
               :if={@player}
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
               phx-click="ready_player"
             >
               {gettext("Ready")}
@@ -39,7 +39,7 @@
           <div>
             <.button
               :if={Pokequiz.Player.all_ready(@game.players) && @player}
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
               phx-click="start_game"
             >
               Start
@@ -67,7 +67,7 @@
         <.modal id="homescreen-modal">
           <div class="flex justify-center">
             <.button
-              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
               phx-click={JS.navigate("/")}
             >
               Confirm
@@ -76,7 +76,7 @@
         </.modal>
         <div class="fixed bottom-2 flex justify-center">
           <.button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
             phx-click={show_modal("homescreen-modal")}
           >
             {gettext("Go Back to Homescreen")}
@@ -136,7 +136,7 @@
   />
   <button
     :if={@game.quiz.finished}
-    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
     phx-click="back_to_lobby"
   >
     Back to Lobby
@@ -161,7 +161,7 @@
 
 <.button
   :if={@player != nil and (@game.state == :lobby or @game.quiz.finished)}
-  class="absolute top-20 right-12"
+  class="absolute top-20 right-12 hover:bg-asparagus-600"
   phx-click={show_modal("settings-modal")}
 >
   Settings

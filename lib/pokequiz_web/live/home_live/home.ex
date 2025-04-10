@@ -31,7 +31,7 @@ defmodule PokequizWeb.HomeLive do
               <div class="container flex justify-center mx-auto">
                 <div class="flex flex-col justify-center gap-2 min-w-80">
                   <div class="grid justify-center">
-                    <button class="bg-mauve/80 text-black text-2xl font-medium px-4 py-2 rounded shadow">
+                    <button class="bg-mauve/80 hover:bg-mauve-400/80 text-black text-2xl font-medium px-4 py-2 rounded shadow">
                       <.link href="/lobby">{gettext("Open new Lobby")}</.link>
                     </button>
                     <div class="flex justify-center">
