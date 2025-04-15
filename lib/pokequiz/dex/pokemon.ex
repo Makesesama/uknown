@@ -79,12 +79,12 @@ defmodule Pokequiz.Dex.Pokemon do
     |> add_is_spriteless()
   end
 
-  def random(number \\ 1, generation_blacklist \\ []) do
+  def random(count \\ 1, generation_blacklist \\ []) do
     query =
       from poke in Pokemon,
         join: s in Dex.Species,
         on: poke.pokemon_species_id == s.id,
-        limit: ^number,
+        limit: ^count,
         where: s.generation_id not in ^generation_blacklist,
         order_by: fragment("RANDOM()")
 
@@ -94,7 +94,7 @@ defmodule Pokequiz.Dex.Pokemon do
       |> convert_to()
       |> add_is_spriteless()
 
-    if number == 1 do
+    if count == 1 do
       Enum.at(pokemon, 0)
     else
       pokemon
