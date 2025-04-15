@@ -1,6 +1,9 @@
-* TODO Implement generation filter
+* DONE Implement generation filter
+CLOSED: [2025-04-15 Di 19:31]
+- State "DONE"       from "TODO"       [2025-04-15 Di 19:31]
 - type combination
 * TODO more behaviour
 I can merge the "new" handler from the game into a function together with the init
 After that i can write a generic game module which holds everything and selects a new game via dependency injection
 In that module i can also implement session logic like rounds etc
+* TODO Theme ingame players
