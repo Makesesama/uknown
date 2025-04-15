@@ -105,32 +105,14 @@ defmodule PokequizWeb.GameLive.Lobby do
   def handle_event(
         "generation_filter",
         %{
-          "0" => zero,
-          "1" => one,
-          "2" => two,
-          "3" => three,
-          "4" => four,
-          "5" => five,
-          "6" => six,
-          "7" => seven,
-          "8" => eight,
+          "gens" => gens,
           "friendly" => friendly
         },
         %{assigns: %{name: name}} = socket
       ) do
     settings = socket.assigns.game.settings
 
-    generations = [
-      one: convert_bool(zero),
-      two: convert_bool(one),
-      three: convert_bool(two),
-      four: convert_bool(three),
-      five: convert_bool(four),
-      six: convert_bool(five),
-      seven: convert_bool(six),
-      eight: convert_bool(seven),
-      nine: convert_bool(eight)
-    ]
+    generations = 1..String.to_integer(gens)
 
     settings = %{settings | generations: generations, friendly: convert_bool(friendly)}
     :ok = GenServer.cast(via_tuple(name), {:update_settings, settings})

@@ -88,21 +88,40 @@
 </div>
 
 <.modal id="settings-modal">
-  <div class="text-black">
+  <div class="text-black dark:text-white">
     <form class="bottom-4 left-56 p-2 rounded gap-2" phx-change="generation_filter">
       <div class="grid grid-cols-1">
-        <%= for number <- 0..8 do %>
-          <div class="flex justify-between">
-            <.label class="flex">Gen {number + 1}</.label>
-            <.input
-              class={["rounded", "border-2"]}
-              id="msg"
-              type="checkbox"
-              name={number}
-              checked={elem(Enum.at(@game.settings.generations, number), 1)}
-            />
+        <!-- <%= for number <- 0..8 do %> -->
+        <!--   <div class="flex justify-between"> -->
+        <!--     <.label class="flex">Gen {number + 1}</.label> -->
+        <!--     <.input -->
+        <!--       class={["rounded", "border-2"]} -->
+        <!--       id="msg" -->
+        <!--       type="checkbox" -->
+        <!--       name={number} -->
+        <!--       checked={elem(Enum.at(@game.settings.generations, number), 1)} -->
+        <!--     /> -->
+        <!--   </div> -->
+        <!-- <% end %> -->
+        <div>
+          <h3>{gettext("Generations")}:</h3>
+          <.input
+            id="gens"
+            type="range"
+            name="gens"
+            value=""
+            min="1"
+            max="9"
+            step="1"
+          />
+          <div class="flex flex-row justify-between p-1">
+            <%= for number <- 1..9 do %>
+            <div>
+              {number}
+            </div>
+            <% end %>
           </div>
-        <% end %>
+        </div>
         <div class="flex justify-between">
           <.label class="flex">Friendly</.label>
           <.input
@@ -164,5 +183,5 @@
   class="absolute top-20 right-12 hover:bg-asparagus-600"
   phx-click={show_modal("settings-modal")}
 >
-  Settings
+  {gettext("Settings")}
 </.button>
