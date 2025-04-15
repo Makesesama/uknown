@@ -56,7 +56,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
               </form>
 
               <.modal id="confirm-modal">
-                <div class="text-black">
+                <div class="">
                   {gettext("Do you really want to the next?")}
                   <button
                     :if={@player}

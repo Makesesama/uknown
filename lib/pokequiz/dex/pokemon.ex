@@ -25,7 +25,9 @@ defmodule Pokequiz.Dex.Pokemon do
     many_to_many :types, Dex.Type, join_through: "pokemon_v2_pokemontype"
 
     belongs_to :species, Dex.Species, foreign_key: :pokemon_species_id
-
+    
+    has_many :forms, Dex.Pokemon.Form, foreign_key: :pokemon_id
+    
     many_to_many :moves, Dex.Move, join_through: "pokemon_v2_pokemonmove"
   end
 
