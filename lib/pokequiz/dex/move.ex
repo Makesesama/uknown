@@ -3,6 +3,7 @@ defmodule Pokequiz.Dex.Move do
   import Ecto.Changeset
 
   alias __MODULE__
+  alias Pokequiz.Dex
 
   alias Pokequiz.Repo
 
@@ -15,8 +16,9 @@ defmodule Pokequiz.Dex.Move do
     field :accuracy, :integer
     field :priority, :integer
     field :move_effect_chance, :integer
+    field :generation_id, :integer
 
-    many_to_many :pokemon, Pokequiz.Dex.Pokemon, join_through: "pokemon_v2_pokemonmove"
+    many_to_many :pokemon, Dex.Pokemon, join_through: "pokemon_v2_pokemonmove"
   end
 
   @doc false
@@ -26,12 +28,17 @@ defmodule Pokequiz.Dex.Move do
     |> validate_required([:name, :power, :pp, :accuracy, :priority, :move_effect_chance])
   end
 
-  def random() do
-    Repo.all(Move)
-    |> Enum.random()
-    |> Repo.preload(:pokemon)
-  end
+  def random(generation_blacklist \\ []) do
+    query = from m in Move,
+                 where: m.generation_id not in ^generation_blacklist
 
-  def pokemon(move_id) do
+    pokemon_query = from p in Dex.Pokemon,
+                         join: s in Dex.Species,
+                         on: p.pokemon_species_id == s.id,
+                         where: s.generation_id not in ^generation_blacklist
+
+    Repo.all(query)
+    |> Enum.random()
+    |> Repo.preload([pokemon: {pokemon_query, []}])
   end
 end
