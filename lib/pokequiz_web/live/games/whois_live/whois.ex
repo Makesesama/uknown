@@ -39,7 +39,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
           phx-target={@myself}
         >
           <label>
-            Your Guess:<.input
+            {gettext("Your Guess")}:<.input
               list="pokemon-names"
               errors={@input_error}
               class={["rounded", "border-2"]}
@@ -51,30 +51,30 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
             />
           </label>
           <button class="bg-blue-500 hover:bg-blue-700 border border-2 border-black text-white font-bold py-2 px-4 rounded rounded-lg">
-            Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" />
+            {gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" />
           </button>
-        </form>
+              </form>
 
-        <.modal id="confirm-modal">
-          <div class="text-black">
-            Do you really want to the next?
-            <button
-              :if={@player}
-              phx-click={hide_modal("confirm-modal") |> JS.push("new")}
-              class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              phx-target={@myself}
-            >
-              Next
-            </button>
-          </div>
-        </.modal>
+              <.modal id="confirm-modal">
+                <div class="text-black">
+                  {gettext("Do you really want to the next?")}
+                  <button
+                    :if={@player}
+                    phx-click={hide_modal("confirm-modal") |> JS.push("new")}
+                    class="absolute bottom-4 left-56 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    phx-target={@myself}
+                  >
+                    {gettext("Next")}
+                  </button>
+                </div>
+              </.modal>
 
         <button
           :if={@player}
           phx-click={show_modal("confirm-modal")}
           class="absolute bottom-4 right-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          Next
+          {gettext("Next")}
         </button>
 
         <p

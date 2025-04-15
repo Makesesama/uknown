@@ -6,8 +6,8 @@
         <div class="grid-cols-2 justify-center">
           <div class="flex justify-center">
             <p class="">
-              There are <b class="text-xl">{Enum.count(@quiz.pokemon.pokemon)}</b>
-              Pokemon with the type combination
+              {gettext("There are")}<b class="text-xl">{Enum.count(@quiz.pokemon.pokemon)}</b>
+              {gettext("Pokemon with the type combination")}
             </p>
           </div>
           <div class="flex justify-center gap-2">
@@ -25,7 +25,7 @@
           phx-target={@myself}
         >
           <label>
-            Your Text:<.input
+            {gettext("Your Guess")}:<.input
               list="pokemon-names"
               errors={@input_error}
               class={["rounded", "border-2"]}
@@ -36,12 +36,12 @@
             />
           </label>
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Send<.icon name="hero-paper-airplane-mini" class="w-4 h-4" />
+            {gettext("Send")}<.icon name="hero-paper-airplane-mini" class="w-4 h-4" />
           </button>
         </form>
 
         <div>
-          <h2 class="text-lg font-bold">Correct Picks: {@quiz.pick}</h2>
+          <h2 class="text-lg font-bold">{gettext("Correct Picks")}: {@quiz.pick}</h2>
           <div class="flex flex-wrap gap-2 justify-center w-full items-center justify-items-center">
             <%= for pokemon <- @quiz.pokemon.pokemon do %>
               <%= if pokemon.picked do %>
@@ -68,14 +68,14 @@
           phx-target={@myself}
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
-          Next
+          {gettext("Next")}
         </button>
         <button
           :if={@player}
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           phx-click="back_to_lobby"
         >
-          Back to Lobby
+          {gettext("Back to Lobby")}
         </button>
       </div>
     </div>

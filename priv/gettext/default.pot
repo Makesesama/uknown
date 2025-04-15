@@ -25,68 +25,68 @@ msgstr ""
 #~ msgid ""
 #~ msgstr ""
 
-#: lib/pokequiz_web/components/core_components.ex:483
+#: lib/pokequiz_web/components/core_components.ex:484
 #, elixir-autogen, elixir-format
 msgid "Actions"
 msgstr ""
 
-#: lib/pokequiz_web/components/core_components.ex:161
+#: lib/pokequiz_web/components/core_components.ex:162
 #, elixir-autogen, elixir-format
 msgid "Attempting to reconnect"
 msgstr ""
 
-#: lib/pokequiz_web/components/core_components.ex:152
+#: lib/pokequiz_web/components/core_components.ex:153
 #, elixir-autogen, elixir-format
 msgid "Error!"
 msgstr ""
 
-#: lib/pokequiz_web/components/core_components.ex:173
+#: lib/pokequiz_web/components/core_components.ex:174
 #, elixir-autogen, elixir-format
 msgid "Hang in there while we get back on track"
 msgstr ""
 
-#: lib/pokequiz_web/components/core_components.ex:168
+#: lib/pokequiz_web/components/core_components.ex:169
 #, elixir-autogen, elixir-format
 msgid "Something went wrong!"
 msgstr ""
 
-#: lib/pokequiz_web/components/core_components.ex:151
+#: lib/pokequiz_web/components/core_components.ex:152
 #, elixir-autogen, elixir-format
 msgid "Success!"
 msgstr ""
 
-#: lib/pokequiz_web/components/core_components.ex:156
+#: lib/pokequiz_web/components/core_components.ex:157
 #, elixir-autogen, elixir-format
 msgid "We can't find the internet"
 msgstr ""
 
 #: lib/pokequiz_web/components/core_components.ex:76
-#: lib/pokequiz_web/components/core_components.ex:131
+#: lib/pokequiz_web/components/core_components.ex:132
 #, elixir-autogen, elixir-format
 msgid "close"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:55
+#: lib/pokequiz/dex/pokemon.ex:56
 #, elixir-autogen, elixir-format
 msgid "galarian"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:57
+#: lib/pokequiz/dex/pokemon.ex:58
 #, elixir-autogen, elixir-format
 msgid "gmax"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:56
+#: lib/pokequiz/dex/pokemon.ex:57
 #, elixir-autogen, elixir-format
 msgid "hisui"
 msgstr ""
 
-#: lib/pokequiz/dex/pokemon.ex:54
+#: lib/pokequiz/dex/pokemon.ex:55
 #, elixir-autogen, elixir-format
 msgid "mega"
 msgstr ""
 
-#: lib/pokequiz_web/components/layouts/app.html.heex:22
+#: lib/pokequiz_web/components/layouts/app.html.heex:24
 #, elixir-autogen, elixir-format
 msgid "Get Started"
 msgstr ""
@@ -96,73 +96,71 @@ msgstr ""
 msgid "Catch Your Friends like Pokemon"
 msgstr ""
 
-#: lib/pokequiz_web/live/home_live/home.ex:38
+#: lib/pokequiz_web/live/home_live/home.ex:52
 #, elixir-autogen, elixir-format
 msgid "Input Code here to join"
 msgstr ""
 
-#: lib/pokequiz_web/live/home_live/home.ex:30
+#: lib/pokequiz_web/live/home_live/home.ex:35
 #, elixir-autogen, elixir-format
 msgid "Open new Lobby"
 msgstr ""
 
-#: lib/pokequiz_web/live/home_live/home.ex:25
+#: lib/pokequiz_web/live/home_live/home.ex:27
 #, elixir-autogen, elixir-format
 msgid "Play Pokemon Quizzes like 'Who is that Pokemon' or 'Which Pokemon is heavier'"
 msgstr ""
 
-#: lib/pokequiz_web/live/game_live/lobby.html.heex:13
-#: lib/pokequiz_web/live/game_live/lobby.html.heex:58
-#: lib/pokequiz_web/live/home_live/home.ex:39
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:25
+#: lib/pokequiz_web/live/games/type_combination_live/show.html.heex:39
+#: lib/pokequiz_web/live/games/whois_live/whois.ex:54
+#: lib/pokequiz_web/live/home_live/home.ex:55
 #, elixir-autogen, elixir-format
 msgid "Send"
 msgstr ""
 
-#: lib/pokequiz_web/live/home_live/home.ex:33
+#: lib/pokequiz_web/live/home_live/home.ex:38
 #, elixir-autogen, elixir-format
 msgid "or"
 msgstr ""
 
-#: lib/pokequiz_web/live/game_live/lobby.html.heex:25
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Gamers"
 msgstr ""
 
-#: lib/pokequiz_web/live/game_live/lobby.html.heex:41
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:82
 #, elixir-autogen, elixir-format
 msgid "Go Back to Homescreen"
 msgstr ""
 
-#: lib/pokequiz_web/components/player.ex:21
-#: lib/pokequiz_web/live/game_live/components/player.ex:15
-#: lib/pokequiz_web/live/game_live/lobby.html.heex:18
+#: lib/pokequiz_web/components/player.ex:28
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "Ready"
 msgstr ""
 
-#: lib/pokequiz_web/live/game_live/lobby.html.heex:12
+#: lib/pokequiz_web/live/game_live/lobby.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Your Name"
 msgstr ""
 
-#: lib/pokequiz_web/components/player.ex:19
-#: lib/pokequiz_web/live/game_live/components/player.ex:13
+#: lib/pokequiz_web/components/player.ex:26
 #, elixir-autogen, elixir-format
 msgid "Not Ready"
 msgstr ""
 
-#: lib/pokequiz_web/components/player.ex:24
-#: lib/pokequiz_web/live/game_live/components/player.ex:18
+#: lib/pokequiz_web/components/player.ex:32
 #, elixir-autogen, elixir-format
 msgid "Remove"
 msgstr ""
 
-#: lib/pokequiz_web/components/player.ex:15
+#: lib/pokequiz_web/components/player.ex:22
 #, elixir-autogen, elixir-format
 msgid "Score"
 msgstr ""
 
-#: lib/pokequiz_web/components/player.ex:14
+#: lib/pokequiz_web/components/player.ex:19
 #, elixir-autogen, elixir-format
 msgid "You"
 msgstr ""
@@ -182,7 +180,45 @@ msgstr ""
 msgid "Who is heavier?"
 msgstr ""
 
-#: lib/pokequiz_web/live/games/whois_live/whois.ex:13
+#: lib/pokequiz_web/live/games/whois_live/whois.ex:12
 #, elixir-autogen, elixir-format
 msgid "Who is that Pokemon?"
+msgstr ""
+
+#: lib/pokequiz_web/live/games/type_combination_live/show.html.heex:78
+#, elixir-autogen, elixir-format
+msgid "Back to Lobby"
+msgstr ""
+
+#: lib/pokequiz_web/live/games/type_combination_live/show.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "Correct Picks"
+msgstr ""
+
+#: lib/pokequiz_web/live/games/type_combination_live/show.html.heex:71
+#: lib/pokequiz_web/live/games/whois_live/whois.ex:67
+#: lib/pokequiz_web/live/games/whois_live/whois.ex:77
+#, elixir-autogen, elixir-format
+msgid "Next"
+msgstr ""
+
+#: lib/pokequiz_web/live/games/type_combination_live/show.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Pokemon with the type combination"
+msgstr ""
+
+#: lib/pokequiz_web/live/games/type_combination_live/show.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "There are"
+msgstr ""
+
+#: lib/pokequiz_web/live/games/type_combination_live/show.html.heex:28
+#: lib/pokequiz_web/live/games/whois_live/whois.ex:42
+#, elixir-autogen, elixir-format
+msgid "Your Guess"
+msgstr ""
+
+#: lib/pokequiz_web/live/games/whois_live/whois.ex:60
+#, elixir-autogen, elixir-format
+msgid "Do you really want to the next?"
 msgstr ""
