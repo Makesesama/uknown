@@ -13,7 +13,7 @@ defmodule PokequizWeb.Games.TypeCombinationLive.Show do
   def value_handle(), do: "type_combination"
 
   def handle_event("new", _, %{assigns: %{quiz: quiz, name: name}} = socket) do
-    types = Dex.Type.get_random_kombo()
+    types = Dex.Type.random_kombo_with_pokemon(Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations))
 
     quiz =
       quiz
@@ -82,7 +82,7 @@ defmodule PokequizWeb.Games.TypeCombinationLive.Show do
   end
 
   def init(socket) do
-    types = Dex.Type.get_random_kombo()
+    types = Dex.Type.random_kombo_with_pokemon(Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.game.settings.generations))
 
     %{}
     |> Map.put(:module, __MODULE__)

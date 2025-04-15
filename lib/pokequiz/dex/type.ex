@@ -5,12 +5,13 @@ defmodule Pokequiz.Dex.Type do
   alias Pokequiz.Repo
 
   alias __MODULE__
-  alias Pokequiz.Dex.Pokemon
+  alias Pokequiz.Dex
 
   import Ecto.Query, only: [from: 2]
 
   schema "pokemon_v2_type" do
     field :name, :string
+    field :generation_id, :integer
 
     many_to_many :pokemon, Pokemon, join_through: "pokemon_v2_pokemontype"
   end
@@ -22,38 +23,67 @@ defmodule Pokequiz.Dex.Type do
     |> validate_required([:name])
   end
 
-  defp two_random_types() do
-    Repo.all(Pokemon)
-    |> Repo.preload(:types)
-    |> Enum.filter(fn x -> Enum.count(x.types) > 1 end)
-    |> Enum.random()
-    |> Map.get(:types)
+  def random(count \\ 1, generation_blacklist \\ []) do
+    query =
+      from type in Type,
+           limit: ^count,
+           where: type.generation_id not in ^generation_blacklist,
+           order_by: fragment("RANDOM()")
+    
+    Repo.all(query)
   end
 
-  def random() do
-    Repo.all(Type)
-    |> Enum.random()
+  def load_pokemon(types, generation_blacklist \\ []) do
+    pokemon_query =
+      from p in Dex.Pokemon,
+           join: s in Dex.Species,
+           on: p.pokemon_species_id == s.id,
+           join: t in assoc(p, :types),
+           where: t.name in ^types,
+           where: s.generation_id not in ^generation_blacklist,
+           group_by: [p.id, s.id],
+           having: fragment("COUNT(DISTINCT ?) = ?", t.name, ^length(types)),
+           preload: [:types, species: :names]
+
+    Repo.all(pokemon_query)
   end
 
-  def get_random_kombo() do
-    types = two_random_types()
+  defp combinations(list, 2) do
+    for i <- 0..(length(list) - 2),
+        j <- (i + 1)..(length(list) - 1),
+        do: [Enum.at(list, i), Enum.at(list, j)]
+  end
 
-    first_type_pokemon =
-      hd(types)
-      |> Repo.preload(:pokemon)
-      |> Map.get(:pokemon)
-      |> Repo.preload(:types)
-      |> Repo.preload(:species)
-      |> Repo.preload(species: :names)
+  def random_kombo_with_pokemon(generation_blacklist \\ []) do
+    # Step 1: Get all dual-typed Pokémon with generation filter
+    pokemon_with_types_query =
+      from p in Dex.Pokemon,
+           join: s in Dex.Species, on: p.pokemon_species_id == s.id,
+           join: t in assoc(p, :types),
+           where: s.generation_id not in ^generation_blacklist,
+           select: {p.id, t.name}
 
-    types_string =
-      types
-      |> Enum.map(fn x -> x.name end)
+    # Step 2: Group types by Pokémon
+    type_pairs =
+      Repo.all(pokemon_with_types_query)
+      |> Enum.group_by(fn {pokemon_id, _type} -> pokemon_id end, fn {_, type} -> type end)
+      |> Enum.filter(fn {_id, types} -> length(types) >= 2 end)
+      |> Enum.flat_map(fn {_id, types} ->
+        types
+        |> Enum.uniq()
+        |> combinations(2)
+        |> Enum.map(&Enum.sort/1)
+      end)
+      |> Enum.uniq()
 
-    pokemon =
-      first_type_pokemon
-      |> Enum.filter(fn x -> Enum.member?(x.types, hd(Enum.reverse(types))) end)
+    case type_pairs do
+      [] ->
+        %{types: [], pokemon: []}
 
-    %{pokemon: pokemon, types: types_string}
+      _ ->
+        chosen_types = Enum.random(type_pairs)
+        pokemon = load_pokemon(chosen_types, generation_blacklist)
+        %{types: chosen_types, pokemon: pokemon}
+    end
   end
 end
