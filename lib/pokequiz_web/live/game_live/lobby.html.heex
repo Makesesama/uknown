@@ -109,7 +109,7 @@
             id="gens"
             type="range"
             name="gens"
-            value=""
+            value={@game.settings.generations}
             min="1"
             max="9"
             step="1"
@@ -153,15 +153,15 @@
     input_error={[]}
     id="2"
   />
-  <!-- <button -->
-  <!--   :if={@game.quiz.finished} -->
-  <!--   class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded" -->
-  <!--   phx-click="back_to_lobby" -->
-  <!-- > -->
-  <!--   Back to Lobby -->
-  <!-- </button> -->
+  <button
+    :if={@game.quiz.finished}
+    class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+    phx-click="back_to_lobby"
+  >
+    Back to Lobby
+  </button>
 
-  <div class="fixed top-44 flex justify-evenly gap-2 p-2">
+  <div class="absolute top-44 right-2 flex justify-evenly gap-2 p-2">
     <Pokequiz.Components.Player.card
       :for={player <- @game.players}
       player={player}

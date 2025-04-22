@@ -100,7 +100,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
     pokemon =
       Dex.Pokemon.random(
         1,
-        Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations)
+        socket.assigns.settings.generations
       )
 
     quiz =
@@ -162,9 +162,7 @@ defmodule PokequizWeb.Games.WhoisLive.Show do
     pokemon =
       Dex.Pokemon.random(
         1,
-        Pokequiz.Session.Settings.generations_to_blacklist(
-          socket.assigns.game.settings.generations
-        )
+        socket.assigns.game.settings.generations
       )
 
     %{}

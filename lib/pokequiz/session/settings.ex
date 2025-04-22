@@ -4,17 +4,7 @@ defmodule Pokequiz.Session.Settings do
   defstruct gens: :all,
             max_player: 4,
             password: nil,
-            generations: [
-              one: true,
-              two: true,
-              three: true,
-              four: true,
-              five: true,
-              six: true,
-              seven: true,
-              eight: true,
-              nine: true
-            ],
+            generations: 9,
             friendly: false
 
   def generations_to_blacklist(generations) do

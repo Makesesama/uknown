@@ -17,7 +17,7 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
 
     pokemans =
       Dex.Pokemon.two_equal(
-        Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations)
+        socket.assigns.settings.generations
       )
 
     quiz =
@@ -87,9 +87,7 @@ defmodule PokequizWeb.Games.WeightComparisonLive.Show do
   def init(socket) do
     pokemans =
       Dex.Pokemon.two_equal(
-        Pokequiz.Session.Settings.generations_to_blacklist(
-          socket.assigns.game.settings.generations
-        )
+        socket.assigns.game.settings.generations
       )
 
     %{}

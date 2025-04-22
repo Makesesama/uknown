@@ -11,7 +11,7 @@ defmodule PokequizWeb.Games.PokemonForMoveLive.Show do
   def value_handle(), do: "pokemon_for_move"
 
   def handle_event("new", _, %{assigns: %{quiz: quiz, name: name}} = socket) do
-    move = Dex.Move.random(Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.settings.generations))
+    move = Dex.Move.random(socket.assigns.settings.generations)
 
     pokemon =
       move.pokemon
@@ -86,7 +86,7 @@ defmodule PokequizWeb.Games.PokemonForMoveLive.Show do
   end
 
   def init(socket) do
-    move = Dex.Move.random(Pokequiz.Session.Settings.generations_to_blacklist(socket.assigns.game.settings.generations))
+    move = Dex.Move.random(socket.assigns.game.settings.generations)
 
     pokemon =
       move.pokemon

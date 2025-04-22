@@ -23,24 +23,24 @@ defmodule Pokequiz.Dex.Type do
     |> validate_required([:name])
   end
 
-  def random(count \\ 1, generation_blacklist \\ []) do
+  def random(count \\ 1, generation_blacklist \\ 9) do
     query =
       from type in Type,
            limit: ^count,
-           where: type.generation_id not in ^generation_blacklist,
+           where: type.generation_id <= ^generation_blacklist,
            order_by: fragment("RANDOM()")
     
     Repo.all(query)
   end
 
-  def load_pokemon(types, generation_blacklist \\ []) do
+  def load_pokemon(types, generation_blacklist \\ 9) do
     pokemon_query =
       from p in Dex.Pokemon,
            join: s in Dex.Species,
            on: p.pokemon_species_id == s.id,
            join: t in assoc(p, :types),
            where: t.name in ^types,
-           where: s.generation_id not in ^generation_blacklist,
+           where: s.generation_id <= ^generation_blacklist,
            group_by: [p.id, s.id],
            having: fragment("COUNT(DISTINCT ?) = ?", t.name, ^length(types)),
            preload: [:types, species: :names]
@@ -54,13 +54,13 @@ defmodule Pokequiz.Dex.Type do
         do: [Enum.at(list, i), Enum.at(list, j)]
   end
 
-  def random_kombo_with_pokemon(generation_blacklist \\ []) do
+  def random_kombo_with_pokemon(generation_blacklist \\ 9) do
     # Step 1: Get all dual-typed Pokémon with generation filter
     pokemon_with_types_query =
       from p in Dex.Pokemon,
            join: s in Dex.Species, on: p.pokemon_species_id == s.id,
            join: t in assoc(p, :types),
-           where: s.generation_id not in ^generation_blacklist,
+           where: s.generation_id <= ^generation_blacklist,
            select: {p.id, t.name}
 
     # Step 2: Group types by Pokémon

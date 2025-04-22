@@ -112,7 +112,7 @@ defmodule PokequizWeb.GameLive.Lobby do
       ) do
     settings = socket.assigns.game.settings
 
-    generations = 1..String.to_integer(gens)
+    generations = String.to_integer(gens)
 
     settings = %{settings | generations: generations, friendly: convert_bool(friendly)}
     :ok = GenServer.cast(via_tuple(name), {:update_settings, settings})

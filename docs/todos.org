@@ -7,3 +7,6 @@ I can merge the "new" handler from the game into a function together with the in
 After that i can write a generic game module which holds everything and selects a new game via dependency injection
 In that module i can also implement session logic like rounds etc
 * TODO Theme ingame players
+* TODO extract completion list into genserver
+at the start of round get all possibilities
+cache them locally

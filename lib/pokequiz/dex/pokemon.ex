@@ -81,13 +81,13 @@ defmodule Pokequiz.Dex.Pokemon do
     |> add_is_spriteless()
   end
 
-  def random(count \\ 1, generation_blacklist \\ []) do
+  def random(count \\ 1, generation_blacklist \\ 9) do
     query =
       from poke in Pokemon,
         join: s in Dex.Species,
         on: poke.pokemon_species_id == s.id,
         limit: ^count,
-        where: s.generation_id not in ^generation_blacklist,
+        where: s.generation_id <= ^generation_blacklist,
         order_by: fragment("RANDOM()")
 
     pokemon =
@@ -103,7 +103,7 @@ defmodule Pokequiz.Dex.Pokemon do
     end
   end
 
-  def two_equal(generation_blacklist \\ []) do
+  def two_equal(generation_blacklist \\ 9) do
     first = Pokemon.random(1, generation_blacklist)
     max_weight = trunc(first.weight * 1.50)
     min_weight = trunc(first.weight * 0.50)
@@ -114,7 +114,7 @@ defmodule Pokequiz.Dex.Pokemon do
         on: p.pokemon_species_id == s.id,
         where:
           p.weight <= ^max_weight and p.id != ^first.id and p.weight >= ^min_weight and
-            p.weight != ^first.weight and s.generation_id not in ^generation_blacklist,
+            p.weight != ^first.weight and s.generation_id <= ^generation_blacklist,
         limit: 1
 
     results = Repo.one(query)

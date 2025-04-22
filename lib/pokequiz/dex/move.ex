@@ -28,16 +28,16 @@ defmodule Pokequiz.Dex.Move do
     |> validate_required([:name, :power, :pp, :accuracy, :priority, :move_effect_chance])
   end
 
-  def random(count \\ 1, generation_blacklist \\ []) do
+  def random(count \\ 1, generation_blacklist \\ 9) do
     query = from m in Move,
-                 where: m.generation_id not in ^generation_blacklist,
+                 where: m.generation_id <= ^generation_blacklist,
                  limit: ^count,
                  order_by: fragment("RANDOM()")
 
     pokemon_query = from p in Dex.Pokemon,
                          join: s in Dex.Species,
                          on: p.pokemon_species_id == s.id,
-                         where: s.generation_id not in ^generation_blacklist
+                         where: s.generation_id <= ^generation_blacklist
 
     Repo.all(query)
     |> Repo.preload([pokemon: {pokemon_query, []}])
